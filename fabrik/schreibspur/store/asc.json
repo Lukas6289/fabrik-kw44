@@ -1,0 +1,66 @@
+{
+  "primaryCategory": "UTILITIES",
+  "secondaryCategory": "LIFESTYLE",
+  "supportUrl": "https://lukas6289.github.io/schreibspur/",
+  "privacyUrl": "https://lukas6289.github.io/schreibspur/datenschutz.html",
+  "locales": {
+    "de-DE": {
+      "name": "Schreibspur: Chat-Rückblick",
+      "subtitle": "Dein Chat in Zahlen, offline",
+      "keywords": "chat,statistik,auswertung,rückblick,nachrichten,antwortzeit,emoji,jahresrückblick,wortwolke,poster",
+      "promotionalText": "Wer schreibt mehr, wer antwortet schneller? Dein Chat als Poster, Wortwolke und Chat-Jahr – ohne Upload.",
+      "description": "Schreibspur macht aus einem exportierten WhatsApp-Chat freundliche Statistiken – komplett auf deinem Handy.\n\nNichts wird hochgeladen, nichts gespeichert, kein Konto nötig. Funktioniert mit WhatsApp-Exporten von iPhone und Android in vielen Sprachen (u. a. Deutsch, Englisch, Spanisch, Französisch, Italienisch, Portugiesisch, Niederländisch, Türkisch). Zum Beweis: Schalte den Flugmodus ein, Schreibspur funktioniert genauso.\n\nSo geht's:\n1. In WhatsApp den Chat exportieren (Ohne Medien).\n2. Im Teilen-Menü Schreibspur antippen – oder später die Datei wählen bzw. den Text einfügen.\n3. Karten ansehen und teilen.\n\nKostenlos:\n• Rückblick als Story: Folie für Folie, mit großen Zahlen – als Bild für Instagram & Co. teilbar\n• Überblick: Nachrichten, aktive Tage, Anteil je Person\n• Rhythmus: aktivste Stunde und aktivster Wochentag\n• Die 3 Lieblingswörter\n• Beispiel-Chat zum Ausprobieren\n\nSchreibspur Pro:\n• Poster: alle Karten in einem großen Bild – teilen oder in Fotos sichern\n• Wortwolke: eure häufigsten Wörter, eingefärbt nach Person\n• Chat-Jahr: jeder Tag ein Streifen, je dunkler, desto mehr geschrieben\n• Antwortzeit: Wer antwortet am schnellsten?\n• Wer fängt an? Wer eröffnet die meisten Gespräche?\n• Lieblings-Emoji und Rekorde (längste Funkstille, längste Serie)\n• Auszeichnungen für Gruppen: Quasselstrippe, Nachteule u. a.\n• Zeitraum-Vergleich: dieses Jahr gegen letztes\n• 12 Lieblingswörter und jede Karte als Bild teilen\nPro gibt es einmalig für 12,99 € oder im Jahresabo für 4,99 €. Das Abo verlängert sich automatisch und lässt sich jederzeit in den Einstellungen deiner Apple-ID kündigen.\n\nKein Tracking, keine Werbung. Schreibspur ist nicht mit WhatsApp verbunden oder von WhatsApp unterstützt.\nNutzungsbedingungen: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+    },
+    "en-US": {
+      "name": "Schreibspur: Chat Recap",
+      "subtitle": "Your chat in numbers, offline",
+      "keywords": "chat,statistics,analyzer,recap,messages,reply time,emoji,insights,word cloud,poster",
+      "promotionalText": "Who writes more, who replies faster? Your chat as a poster, word cloud and chat year – no upload.",
+      "description": "Schreibspur turns an exported WhatsApp chat into friendly statistics – entirely on your phone.\n\nNothing is uploaded, nothing is saved, no account needed. Works with WhatsApp exports from iPhone and Android in many languages (including English, German, Spanish, French, Italian, Portuguese, Dutch and Turkish). Proof: switch on airplane mode and Schreibspur works the same.\n\nHow it works:\n1. Export the chat in WhatsApp (Without Media).\n2. Tap Schreibspur in the share sheet – or choose the file or paste the text later.\n3. Look at the cards and share them.\n\nFree:\n• Your recap as a story: slide by slide, big numbers – shareable as an image for Instagram and more\n• Overview: messages, active days, share per person\n• Rhythm: busiest hour and busiest weekday\n• Your top 3 favourite words\n• An example chat to try it out\n\nSchreibspur Pro:\n• Poster: all cards in one big image – share it or save it to Photos\n• Word cloud: your most-used words, coloured by person\n• Chat year: one strip per day, the darker the more you wrote\n• Reply time: who answers fastest?\n• Who starts the talk? Who opens most conversations?\n• Favourite emoji and records (longest silence, longest streak)\n• Awards for groups: chatterbox, night owl and more\n• Compare two periods: this year vs. last year\n• 12 favourite words and share every card as an image\nPro is available once for 12.99 € or as a yearly subscription for 4.99 €. The subscription renews automatically and can be cancelled any time in your Apple ID settings.\n\nNo tracking, no ads. Schreibspur is not affiliated with or endorsed by WhatsApp.\nTerms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+    }
+  },
+  "screenshots": {
+    "de-DE": "screenshots/out/de_",
+    "en-US": "screenshots/out/en_"
+  },
+  "reviewScreenshot": "screenshots/out/de_8.png",
+  "reviewNotes": "Pro wird über StoreKit 2 gekauft (Jahresabo oder Einmalkauf), kein Konto nötig. Ohne eigenen Chat: auf „Beispiel ansehen“ tippen. / Pro is bought via StoreKit 2 (yearly or lifetime), no account needed. Without a chat of your own, tap \"Try an example\".",
+  "lifetime": {
+    "productId": "com.lukasbeutler.schreibspur.pro.lifetime",
+    "referenceName": "Pro für immer",
+    "price": "12.99",
+    "loc": {
+      "de-DE": {
+        "name": "Schreibspur Pro",
+        "description": "Alle Karten, Vergleiche, Teilen."
+      },
+      "en-US": {
+        "name": "Schreibspur Pro",
+        "description": "All cards, comparison, sharing."
+      }
+    }
+  },
+  "yearly": {
+    "productId": "com.lukasbeutler.schreibspur.pro.yearly",
+    "referenceName": "Pro Jahr",
+    "price": "4.99",
+    "period": "ONE_YEAR",
+    "group": {
+      "referenceName": "Pro",
+      "loc": {
+        "de-DE": "Schreibspur Pro",
+        "en-US": "Schreibspur Pro"
+      }
+    },
+    "loc": {
+      "de-DE": {
+        "name": "Schreibspur Pro (Jahr)",
+        "description": "Alle Karten, Vergleiche, Teilen."
+      },
+      "en-US": {
+        "name": "Schreibspur Pro (Year)",
+        "description": "All cards, comparison, sharing."
+      }
+    }
+  }
+}

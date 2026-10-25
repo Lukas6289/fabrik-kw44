@@ -1,0 +1,336 @@
+{
+  "@@locale": "de",
+  "appTitle": "Schreibspur",
+  "tagline": "Dein Chat in Zahlen – zu 100 % auf deinem Handy.",
+  "loadChat": "Exportierten Chat wählen",
+  "pasteChat": "Aus Zwischenablage einfügen",
+  "tryExample": "Beispiel ansehen",
+  "offlineProof": "Nichts verlässt dein Handy. Probier es aus: Flugmodus an – Schreibspur funktioniert genauso.",
+  "howToTitle": "So exportierst du einen Chat",
+  "howToIos": "WhatsApp → Chat öffnen → oben auf den Namen tippen → Chat exportieren → Ohne Medien → im Teilen-Menü Schreibspur antippen. Fertig, die Auswertung öffnet sich sofort.",
+  "howToAndroid": "WhatsApp → Chat öffnen → ⋮ → Mehr → Chat exportieren → Ohne Medien → in Dateien speichern.",
+  "errorNoMessages": "Keine Nachrichten gefunden. Bitte wähle einen aus WhatsApp exportierten Chat (.txt oder .zip).",
+  "errorRead": "Die Datei konnte nicht gelesen werden.",
+  "clipboardEmpty": "Die Zwischenablage ist leer.",
+  "newChat": "Anderer Chat",
+  "exampleBadge": "Beispiel – erfundene Personen",
+  "chatPeriod": "{from} – {to}",
+  "@chatPeriod": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "labelMessages": "Nachrichten",
+  "labelDays": "Tage",
+  "labelActiveDays": "Aktive Tage",
+  "labelPerDay": "Pro Tag",
+  "labelWords": "Wörter",
+  "labelWordsPerMessage": "Wörter pro Nachricht",
+  "labelPhotosEtc": "Anhänge",
+  "cardOverview": "Überblick",
+  "cardRhythm": "Rhythmus",
+  "cardWords": "Lieblingswörter",
+  "cardReplies": "Antwortzeit",
+  "cardStarters": "Wer fängt an?",
+  "cardEmoji": "Lieblings-Emoji",
+  "cardRecords": "Rekorde",
+  "cardAwards": "Auszeichnungen",
+  "cardCompare": "Früher vs. jetzt",
+  "rhythmHour": "Aktivste Stunde: {hour}",
+  "@rhythmHour": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "rhythmDay": "Aktivster Wochentag: {day}",
+  "@rhythmDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "hourRange": "{from}–{to} Uhr",
+  "@hourRange": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "wordsEmpty": "Noch nicht genug Text.",
+  "wordsMore": "+ weitere Wörter mit Pro",
+  "timesUsed": "{count}×",
+  "@timesUsed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repliesHint": "Mittlere Zeit, bis die andere Person antwortet (bis 6 Stunden).",
+  "startersHint": "Beginnt ein neues Gespräch nach mindestens 6 Stunden Pause.",
+  "startsCount": "{count} Gespräche",
+  "@startsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noEmoji": "Keine Emoji gefunden.",
+  "recordBusiestDay": "Aktivster Tag",
+  "recordBusiestDayValue": "{date} · {count} Nachrichten",
+  "@recordBusiestDayValue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recordPause": "Längste Funkstille",
+  "recordPauseValue": "{duration}, ab {date}",
+  "@recordPauseValue": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recordStreak": "Längste Serie",
+  "recordStreakValue": "{days} Tage in Folge",
+  "@recordStreakValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "durUnderMinute": "unter 1 Min.",
+  "durMinutes": "{m} Min.",
+  "@durMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "durHours": "{h} Std. {m} Min.",
+  "@durHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "durDays": "{d} T. {h} Std.",
+  "@durDays": {
+    "placeholders": {
+      "d": {
+        "type": "int"
+      },
+      "h": {
+        "type": "int"
+      }
+    }
+  },
+  "awardMost": "Quasselstrippe",
+  "awardMostText": "Schreibt die meisten Nachrichten",
+  "awardFast": "Blitzantwort",
+  "awardFastText": "Antwortet am schnellsten",
+  "awardStarter": "Eisbrecher",
+  "awardStarterText": "Fängt die meisten Gespräche an",
+  "awardNovel": "Romanautor",
+  "awardNovelText": "Die längsten Nachrichten",
+  "awardOwl": "Nachteule",
+  "awardOwlText": "Meiste Nachrichten nach Mitternacht",
+  "compareNeedMore": "Zum Vergleichen braucht es mindestens zwei Wochen Chat.",
+  "compareBefore": "Vorher",
+  "compareNow": "Jetzt",
+  "compareChange": "{percent} Nachrichten",
+  "@compareChange": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "locked": "Teil von Pro",
+  "lockedTap": "Mit Pro freischalten",
+  "share": "Als Bild teilen",
+  "shareText": "Erstellt mit Schreibspur",
+  "shareFailed": "Teilen hat nicht geklappt.",
+  "aboutPrivacy": "Dein Chat wird auf diesem Handy gelesen und nicht gespeichert: App schließen, und er ist weg. Kein Konto, kein Internetzugriff, kein Tracking.",
+  "proTitle": "Schreibspur Pro",
+  "proTagline": "Alle Karten, alle Vergleiche, teilbar.",
+  "proFeatureCards": "Alle Karten: Antwortzeit, Wer fängt an, Emoji, Rekorde",
+  "proFeatureAwards": "Auszeichnungen für Gruppen: Quasselstrippe, Nachteule u. a.",
+  "proFeatureCompare": "Zwei Zeiträume vergleichen – dieses Jahr gegen letztes",
+  "proFeatureWords": "{count} Lieblingswörter statt {free}",
+  "@proFeatureWords": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "free": {
+        "type": "int"
+      }
+    }
+  },
+  "proFeatureShare": "Jede Karte als Bild teilen",
+  "proYearly": "Jährlich",
+  "proYearlyDetail": "{price} pro Jahr · verlängert sich automatisch",
+  "@proYearlyDetail": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proLifetime": "Einmalig",
+  "proLifetimeDetail": "{price} einmalig · kein Abo",
+  "@proLifetimeDetail": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proBuy": "Weiter",
+  "proRestore": "Käufe wiederherstellen",
+  "proActive": "Pro ist aktiv – danke!",
+  "proPending": "Dein Kauf wartet auf Freigabe.",
+  "proFailed": "Der Kauf hat nicht geklappt. Bitte versuche es erneut.",
+  "proNothingToRestore": "Kein früherer Kauf gefunden.",
+  "proStoreUnavailable": "Der App Store ist gerade nicht erreichbar.",
+  "proSubscriptionNote": "Das Jahresabo verlängert sich automatisch, wenn du nicht mindestens 24 Stunden vor Ende des Zeitraums kündigst. Die Zahlung läuft über deine Apple-ID. Verwalten oder kündigen kannst du es in den Einstellungen deiner Apple-ID.",
+  "terms": "Nutzungsbedingungen",
+  "privacyPolicy": "Datenschutz",
+  "cardCloud": "Wortwolke",
+  "cloudHint": "Je größer, desto öfter. Farbe = wer es am meisten schreibt.",
+  "cardYear": "Chat-Jahr",
+  "yearSummary": "An {active} von {days} Tagen geschrieben",
+  "@yearSummary": {
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "yearLess": "weniger",
+  "yearMore": "mehr",
+  "posterButton": "Poster erstellen",
+  "posterTitle": "Poster",
+  "posterShare": "Poster teilen",
+  "posterHint": "Alle Karten in einem Bild – teilen oder in Fotos sichern.",
+  "posterMadeWith": "Erstellt mit Schreibspur · offline ausgewertet",
+  "proFeatureImages": "Poster mit allen Karten, Wortwolke und Chat-Jahr",
+  "storyPlay": "Rückblick abspielen",
+  "storyIntroKicker": "Euer Chat",
+  "storyIntroTitle": "{days} Tage in Nachrichten",
+  "@storyIntroTitle": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "storyTotalKicker": "Ihr habt geschrieben",
+  "storyTotalSub": "Das sind {perDay} am Tag.",
+  "@storyTotalSub": {
+    "placeholders": {
+      "perDay": {
+        "type": "String"
+      }
+    }
+  },
+  "storyWhoKicker": "Wer schreibt mehr?",
+  "storyWhoTitle": "{name} schreibt {percent} %",
+  "@storyWhoTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "storyHourKicker": "Eure Stunde",
+  "storyHourTitle": "Am meisten los: {hour}",
+  "@storyHourTitle": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "storyWordKicker": "Euer Wort",
+  "storyWordTitle": "{count}-mal geschrieben",
+  "@storyWordTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "storyCloudTitle": "Das sind eure Wörter.",
+  "storyReplyTitle": "{name} antwortet am schnellsten",
+  "@storyReplyTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storyStarterTitle": "{name} meldet sich zuerst",
+  "@storyStarterTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storyEmojiTitle": "Euer Lieblings-Emoji",
+  "storyAwardsTitle": "Und die Preise gehen an …",
+  "storyOutroKicker": "Das war's",
+  "storyOutroTitle": "Das ist eure Schreibspur.",
+  "storyRestart": "Nochmal ansehen",
+  "storyLockedTitle": "Das war erst der Anfang.",
+  "storyLockedText": "Wortwolke, Antwortzeit, Emoji, Chat-Jahr, Auszeichnungen und Rekorde gibt es mit Pro.",
+  "storyLockedButton": "Pro ansehen",
+  "storyShare": "Folie teilen",
+  "storyClose": "Schließen",
+  "storyTapHint": "Tippen für weiter",
+  "heroTitle": "Dein Chat\nals Rückblick.",
+  "heroText": "Wer schreibt mehr, wer antwortet schneller, was ist euer Wort? Mach aus jedem WhatsApp-Chat einen Rückblick zum Teilen.",
+  "stepsTitle": "In drei Schritten",
+  "step1": "Chat in WhatsApp öffnen, oben auf den Namen tippen.",
+  "step2": "Chat exportieren → Ohne Medien.",
+  "step3": "Im Teilen-Menü Schreibspur antippen – fertig.",
+  "resultsKicker": "Euer Rückblick",
+  "proBest": "Bester Wert",
+  "proPopular": "Flexibel"
+}

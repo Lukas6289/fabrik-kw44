@@ -1,0 +1,44 @@
+name: schreibspur
+description: "Schreibspur – offline chat statistics (en + de)."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.5.6
+  intl: ^0.20.3
+  url_launcher: ^6.3.3
+  file_picker: ^10.3.3
+  share_plus: ^12.0.0
+  archive: ^4.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  fonts:
+    - family: BricolageText
+      fonts:
+        - asset: assets/fonts/BricolageText-400.ttf
+          weight: 400
+        - asset: assets/fonts/BricolageText-600.ttf
+          weight: 600
+        - asset: assets/fonts/BricolageText-700.ttf
+          weight: 700
+    - family: BricolageDisplay
+      fonts:
+        - asset: assets/fonts/BricolageDisplay-700.ttf
+          weight: 700
+        - asset: assets/fonts/BricolageDisplay-800.ttf
+          weight: 800

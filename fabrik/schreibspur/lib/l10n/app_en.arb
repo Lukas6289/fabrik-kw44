@@ -1,0 +1,336 @@
+{
+  "@@locale": "en",
+  "appTitle": "Schreibspur",
+  "tagline": "Your chat in numbers – 100 % on your phone.",
+  "loadChat": "Choose exported chat",
+  "pasteChat": "Paste from clipboard",
+  "tryExample": "Try an example",
+  "offlineProof": "Nothing leaves your phone. Try it: switch on airplane mode – Schreibspur works the same.",
+  "howToTitle": "How to export a chat",
+  "howToIos": "WhatsApp → open the chat → tap the name at the top → Export Chat → Without Media → tap Schreibspur in the share sheet. Done – the recap opens right away.",
+  "howToAndroid": "WhatsApp → open the chat → ⋮ → More → Export chat → Without media → save to Files.",
+  "errorNoMessages": "No messages found. Please choose a chat exported from WhatsApp (.txt or .zip).",
+  "errorRead": "The file could not be read.",
+  "clipboardEmpty": "The clipboard is empty.",
+  "newChat": "Another chat",
+  "exampleBadge": "Example – made-up people",
+  "chatPeriod": "{from} – {to}",
+  "@chatPeriod": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "labelMessages": "Messages",
+  "labelDays": "Days",
+  "labelActiveDays": "Active days",
+  "labelPerDay": "Per day",
+  "labelWords": "Words",
+  "labelWordsPerMessage": "Words per message",
+  "labelPhotosEtc": "Attachments",
+  "cardOverview": "Overview",
+  "cardRhythm": "Rhythm",
+  "cardWords": "Favourite words",
+  "cardReplies": "Reply time",
+  "cardStarters": "Who starts the talk",
+  "cardEmoji": "Favourite emoji",
+  "cardRecords": "Records",
+  "cardAwards": "Awards",
+  "cardCompare": "Then vs. now",
+  "rhythmHour": "Busiest hour: {hour}",
+  "@rhythmHour": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "rhythmDay": "Busiest day of the week: {day}",
+  "@rhythmDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "hourRange": "{from}–{to} h",
+  "@hourRange": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "wordsEmpty": "Not enough text yet.",
+  "wordsMore": "+ more words with Pro",
+  "timesUsed": "{count}×",
+  "@timesUsed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repliesHint": "Median time until the other person answers (up to 6 hours).",
+  "startersHint": "Opens a new talk after at least 6 hours of silence.",
+  "startsCount": "{count} talks",
+  "@startsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noEmoji": "No emoji found.",
+  "recordBusiestDay": "Busiest day",
+  "recordBusiestDayValue": "{date} · {count} messages",
+  "@recordBusiestDayValue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recordPause": "Longest silence",
+  "recordPauseValue": "{duration}, from {date}",
+  "@recordPauseValue": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recordStreak": "Longest streak",
+  "recordStreakValue": "{days} days in a row",
+  "@recordStreakValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "durUnderMinute": "under 1 min",
+  "durMinutes": "{m} min",
+  "@durMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "durHours": "{h} h {m} min",
+  "@durHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "durDays": "{d} d {h} h",
+  "@durDays": {
+    "placeholders": {
+      "d": {
+        "type": "int"
+      },
+      "h": {
+        "type": "int"
+      }
+    }
+  },
+  "awardMost": "Chatterbox",
+  "awardMostText": "Writes the most messages",
+  "awardFast": "Speedy",
+  "awardFastText": "Answers fastest",
+  "awardStarter": "Ice breaker",
+  "awardStarterText": "Starts most talks",
+  "awardNovel": "Novelist",
+  "awardNovelText": "Longest messages",
+  "awardOwl": "Night owl",
+  "awardOwlText": "Most messages after midnight",
+  "compareNeedMore": "Needs at least two weeks of chat to compare.",
+  "compareBefore": "Before",
+  "compareNow": "Now",
+  "compareChange": "{percent} messages",
+  "@compareChange": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "locked": "Part of Pro",
+  "lockedTap": "Unlock with Pro",
+  "share": "Share as image",
+  "shareText": "Made with Schreibspur",
+  "shareFailed": "Sharing did not work.",
+  "aboutPrivacy": "Your chat is read on this phone and not saved: close the app and it is gone. No account, no internet access, no tracking.",
+  "proTitle": "Schreibspur Pro",
+  "proTagline": "Every card, every comparison, shareable.",
+  "proFeatureCards": "All cards: reply time, who starts, emoji, records",
+  "proFeatureAwards": "Awards for groups: chatterbox, speedy, night owl",
+  "proFeatureCompare": "Compare two periods – this year vs. last year",
+  "proFeatureWords": "{count} favourite words instead of {free}",
+  "@proFeatureWords": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "free": {
+        "type": "int"
+      }
+    }
+  },
+  "proFeatureShare": "Share every card as an image",
+  "proYearly": "Yearly",
+  "proYearlyDetail": "{price} per year · renews automatically",
+  "@proYearlyDetail": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proLifetime": "Lifetime",
+  "proLifetimeDetail": "{price} once · no subscription",
+  "@proLifetimeDetail": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proBuy": "Continue",
+  "proRestore": "Restore purchases",
+  "proActive": "Pro is active – thank you!",
+  "proPending": "Your purchase is waiting for approval.",
+  "proFailed": "The purchase did not go through. Please try again.",
+  "proNothingToRestore": "No previous purchase found.",
+  "proStoreUnavailable": "The App Store is not reachable right now.",
+  "proSubscriptionNote": "The yearly subscription renews automatically unless cancelled at least 24 hours before the end of the current period. Payment is charged to your Apple ID. Manage or cancel it in your Apple ID settings.",
+  "terms": "Terms of Use",
+  "privacyPolicy": "Privacy Policy",
+  "cardCloud": "Word cloud",
+  "cloudHint": "The bigger, the more often. Colour = who writes it most.",
+  "cardYear": "Chat year",
+  "yearSummary": "{active} of {days} days with messages",
+  "@yearSummary": {
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "yearLess": "less",
+  "yearMore": "more",
+  "posterButton": "Create poster",
+  "posterTitle": "Poster",
+  "posterShare": "Share poster",
+  "posterHint": "All cards in one image – share it or save it to Photos.",
+  "posterMadeWith": "Made with Schreibspur · analysed offline",
+  "proFeatureImages": "Poster with all cards, word cloud and chat year",
+  "storyPlay": "Play your recap",
+  "storyIntroKicker": "Your chat",
+  "storyIntroTitle": "{days} days in messages",
+  "@storyIntroTitle": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "storyTotalKicker": "You wrote",
+  "storyTotalSub": "That's {perDay} a day.",
+  "@storyTotalSub": {
+    "placeholders": {
+      "perDay": {
+        "type": "String"
+      }
+    }
+  },
+  "storyWhoKicker": "Who writes more?",
+  "storyWhoTitle": "{name} writes {percent} %",
+  "@storyWhoTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "storyHourKicker": "Your hour",
+  "storyHourTitle": "Busiest: {hour}",
+  "@storyHourTitle": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "storyWordKicker": "Your word",
+  "storyWordTitle": "used {count} times",
+  "@storyWordTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "storyCloudTitle": "These are your words.",
+  "storyReplyTitle": "{name} replies fastest",
+  "@storyReplyTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storyStarterTitle": "{name} reaches out first",
+  "@storyStarterTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storyEmojiTitle": "Your favourite emoji",
+  "storyAwardsTitle": "And the awards go to …",
+  "storyOutroKicker": "That's a wrap",
+  "storyOutroTitle": "This is your Schreibspur.",
+  "storyRestart": "Watch again",
+  "storyLockedTitle": "That was just the start.",
+  "storyLockedText": "Word cloud, reply times, emoji, chat year, awards and records come with Pro.",
+  "storyLockedButton": "See Pro",
+  "storyShare": "Share slide",
+  "storyClose": "Close",
+  "storyTapHint": "Tap to continue",
+  "heroTitle": "Your chat,\nwrapped.",
+  "heroText": "Who writes more, who replies faster, what's your word? Turn any WhatsApp chat into a recap to share.",
+  "stepsTitle": "In three steps",
+  "step1": "Open the chat in WhatsApp and tap the name at the top.",
+  "step2": "Export Chat → Without Media.",
+  "step3": "Tap Schreibspur in the share sheet – done.",
+  "resultsKicker": "Your recap",
+  "proBest": "Best value",
+  "proPopular": "Flexible"
+}

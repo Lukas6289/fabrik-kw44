@@ -1,12 +1,13 @@
-# Einreichen – 2026-10-25 21:11 UTC
+# Einreichen – 2026-10-25 21:16 UTC
 
 ```
-Schlüssel: 1 Zeilen, AuthKey_4254G5B354.p8
-⚠ Store-Texte fabrik/kochmappe:
-  |   code: 'ERR_OSSL_UNSUPPORTED'
-  | }
-  | 
-  | Node.js v22.23.3
-✘ Absturz: error:1E08010C:DECODER routines::unsupported
+Schlüssel: 6 Zeilen, -----BEGIN PRIVATE KEY-----
+Store-Texte fabrik/kochmappe aktualisiert
+  · ERGEBNIS: 9 erledigt, 0 offen
+# Kochmappe: Rezeptsammlung (com.lukasbeutler.kochmappe) – pruefen
+  Version 1.0 → 1.0.0
+  Build 1 anhängen
+  Kauf com.lukasbeutler.kochmappe.pro.lifetime: READY_TO_SUBMIT
+✔ bereit zum Einreichen
 
 ```

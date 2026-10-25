@@ -32,6 +32,8 @@ jobs:
         run: |
           git clone -q --depth 1 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" "$RUNNER_TEMP/t"
           echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          # Form des Schluessels pruefen (ohne Inhalt zu zeigen)
+          { echo "Schlüssel: $(wc -l < "$RUNNER_TEMP/asc.p8") Zeilen, $(head -1 "$RUNNER_TEMP/asc.p8" | cut -c1-30)"; } >> "$RUNNER_TEMP/kopf.txt"
           export ASC_KEY_PATH="$RUNNER_TEMP/asc.p8" BERICHT="$RUNNER_TEMP/bericht.md"
           : > "$BERICHT"; CODE=0
           while read -r befehl bundle; do
@@ -43,11 +45,11 @@ jobs:
             if [ "$befehl" != entwurf-weg ] && [ -f "$DIR/store/asc.json" ]; then
               node fabrik/tool/asc_einrichten.js "$DIR" > "$RUNNER_TEMP/einrichten.log" 2>&1 \
                 && { echo "Store-Texte $DIR aktualisiert"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; } >> "$BERICHT" \
-                || { echo "⚠ Store-Texte $DIR:"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; } >> "$BERICHT"
+                || { echo "⚠ Store-Texte $DIR:"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; tail -4 "$RUNNER_TEMP/einrichten.log" | sed 's/^/  | /'; } >> "$BERICHT"
             fi
             node fabrik/tool/asc_einreichen.js "$befehl" "$bundle" || CODE=1
           done < fabrik/EINREICHEN
-          { echo "# Einreichen – $(date -u '+%F %H:%M') UTC"; echo; echo '```'; cat "$BERICHT"; echo '```'; } > fabrik/EINREICHEN.md
+          { echo "# Einreichen – $(date -u '+%F %H:%M') UTC"; echo; echo '```'; cat "$RUNNER_TEMP/kopf.txt" 2>/dev/null; cat "$BERICHT"; echo '```'; } > fabrik/EINREICHEN.md
           exit 0
       - name: Sichern
         run: |

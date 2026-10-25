@@ -228,4 +228,9 @@ async function main() {
 main().then((ok) => {
   require('fs').appendFileSync(process.env.BERICHT || '/dev/null', zeilen.join('\n') + '\n\n');
   process.exit(ok ? 0 : 1);
-}).catch((e) => { console.log('✘ Absturz: ' + (e.stack || e)); process.exit(1); });
+}).catch((e) => {
+  const t = '✘ Absturz: ' + (e.message || e);
+  console.log(t);
+  require('fs').appendFileSync(process.env.BERICHT || '/dev/null', zeilen.concat(t).join('\n') + '\n\n');
+  process.exit(1);
+});

@@ -1,0 +1,88 @@
+# App-Radar: App-Store-Charts sammeln, Chancen bewerten, Claude schreibt die Top 5.
+# Laeuft in diesem oeffentlichen Wochen-Repo (Actions gratis), arbeitet aber im
+# privaten Repo Lukas6289/app-radar ("Tresor"): Daten und Berichte landen dort.
+#
+# Secrets: CLAUDE_CODE_OAUTH_TOKEN, FABRIK_TOKEN (Schreibrecht auf app-radar).
+
+name: App-Radar
+
+on:
+  schedule:
+    # ~2 Uhr deutscher Zeit; der Job „zeit“ laesst nur den Lauf durch, der 2 Uhr in Berlin trifft.
+    - cron: '7 0,1 * * *'
+  workflow_dispatch:
+    inputs:
+      schnell:
+        description: 'Nur 3 Kategorien (zum Testen)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  zeit:
+    runs-on: ubuntu-latest
+    outputs:
+      los: ${{ steps.z.outputs.los }}
+    steps:
+      - id: z
+        run: |
+          H=$(TZ=Europe/Berlin date +%H)
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "$H" = "02" ]; then echo "los=ja" >> "$GITHUB_OUTPUT"
+          else echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Berlin $H Uhr – der andere Lauf ist dran."; fi
+
+  radar:
+    needs: zeit
+    if: needs.zeit.outputs.los == 'ja'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: t
+    steps:
+      - name: Tresor (app-radar) holen
+        working-directory: .
+        env:
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: git clone -q --depth 20 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" t
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: t/package-lock.json }
+      - run: npm ci --silent
+
+      - name: Charts sammeln und bewerten
+        env:
+          SCHNELL: ${{ github.event.inputs.schnell == 'true' && '1' || '' }}
+        run: node src/radar.mjs > "$RUNNER_TEMP/radar.log" 2>&1 || { tail -20 "$RUNNER_TEMP/radar.log"; exit 1; }
+
+      - name: Claude bewertet die Kandidaten
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          DATUM=$(date -u +%F)
+          { cat prompts/analyse.md; cat daten/kandidaten/$DATUM.json; } > "$RUNNER_TEMP/prompt.md"
+          npx -y @anthropic-ai/claude-code -p --output-format text --max-turns 1 \
+            < "$RUNNER_TEMP/prompt.md" > "$RUNNER_TEMP/antwort.json"
+          echo "Antwort: $(wc -c < "$RUNNER_TEMP/antwort.json") Zeichen"
+
+      - name: Bericht schreiben
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          export BERICHT_URL="https://github.com/Lukas6289/app-radar/blob/main/berichte/$(date -u +%F).md"
+          # Ausgabe nicht ins (oeffentliche) Protokoll
+          node src/bericht.mjs "$RUNNER_TEMP/antwort.json" > /dev/null
+
+      - name: Ergebnisse im Tresor sichern
+        if: always()
+        run: |
+          git config user.name "app-radar"
+          git config user.email "app-radar@users.noreply.github.com"
+          git add daten berichte 2>/dev/null || true
+          git commit -q -m "Radar $(date -u +%F)" || exit 0
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q && exit 0; sleep 5; done; exit 1

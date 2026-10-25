@@ -1,0 +1,63 @@
+# Fabrik-Apps bei Apple einreichen – nur auf ausdruecklichen Wunsch von Lukas.
+# Start: fabrik/EINREICHEN mit Zeilen „pruefen <bundle-id>“ oder
+# „los <bundle-id>“ ueberschreiben und pushen. Ergebnis: fabrik/EINREICHEN.md.
+
+name: Fabrik-App einreichen
+
+on:
+  push:
+    branches: [main]
+    paths: ['fabrik/EINREICHEN']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: einreichen
+  cancel-in-progress: false
+
+jobs:
+  einreichen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Einreichen
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: |
+          git clone -q --depth 1 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" "$RUNNER_TEMP/t"
+          echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          export ASC_KEY_PATH="$RUNNER_TEMP/asc.p8" BERICHT="$RUNNER_TEMP/bericht.md"
+          : > "$BERICHT"; CODE=0
+          while read -r befehl bundle; do
+            [ -z "$bundle" ] && continue
+            # Fabrik-App: Store-Texte vorher auf den Stand von store/asc.json bringen.
+            DIR="fabrik/${bundle##*.}"
+            # App-Ordner fehlt in diesem Wochen-Repo? Aus app-radar (privat) holen.
+            if [ ! -d "$DIR" ] && [ -d "$RUNNER_TEMP/t/$DIR" ]; then cp -r "$RUNNER_TEMP/t/$DIR" "$DIR"; fi
+            if [ "$befehl" != entwurf-weg ] && [ -f "$DIR/store/asc.json" ]; then
+              node fabrik/tool/asc_einrichten.js "$DIR" > "$RUNNER_TEMP/einrichten.log" 2>&1 \
+                && { echo "Store-Texte $DIR aktualisiert"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; } >> "$BERICHT" \
+                || { echo "⚠ Store-Texte $DIR:"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; } >> "$BERICHT"
+            fi
+            node fabrik/tool/asc_einreichen.js "$befehl" "$bundle" || CODE=1
+          done < fabrik/EINREICHEN
+          { echo "# Einreichen – $(date -u '+%F %H:%M') UTC"; echo; echo '```'; cat "$BERICHT"; echo '```'; } > fabrik/EINREICHEN.md
+          exit 0
+      - name: Sichern
+        run: |
+          git config user.name "fabrik-bot"
+          git config user.email "fabrik-bot@users.noreply.github.com"
+          git add fabrik/EINREICHEN.md
+          git commit -q -m "Einreichen-Bericht [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do
+            git push -q origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" || true
+            sleep $((i * 5))
+          done
+          exit 1

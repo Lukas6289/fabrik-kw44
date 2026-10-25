@@ -1,0 +1,333 @@
+# App-Fabrik: eine App aus fabrik/<name>/ testen, Store-Eintrag ausfuellen,
+# auf einem Mac bauen und zu Apple (TestFlight) hochladen.
+#
+# Wochen-Repo (oeffentlich, eine Woche lang; Sonntags dreht woche.yml weiter und
+# stellt dieses Repo auf privat). Quelle aller Apps: Lukas6289/app-radar (privat).
+# Start: Push mit geaenderter fabrik/BAUEN (macht fabrik.yml) oder Run workflow.
+# Ergebnis: fabrik/LAUF.md und fabrik/STATUS/<app>.
+#
+# Secrets: ASC_KEY_P8, FABRIK_TOKEN; CERT_PRIVATE_KEY (fehlt er, wird ein neuer
+# Signierschluessel erzeugt und als Secret gespeichert).
+
+name: Fabrik-App bauen & hochladen
+
+on:
+  push:
+    branches: [main]
+    paths: ['fabrik/BAUEN']
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'Ordner in fabrik/ (leer = fabrik/BAUEN)'
+        required: false
+        default: ''
+      nur_testflight:
+        description: 'Nur TestFlight-Tester eintragen (kein Bau)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fabrik-ios
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash   # mit pipefail – sonst verschluckt „| tee“ Fehler
+
+env:
+  ASC_KEY_ID: 4254G5B354
+  ASC_ISSUER_ID: f036d3fc-6983-4fd5-a789-f0a39a7a3e88
+  IN_APP: ${{ github.event.inputs.app }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    outputs:
+      app: ${{ steps.a.outputs.app }}
+      bauen: ${{ steps.a.outputs.bauen }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: a
+        run: |
+          APP="$IN_APP"; [ -z "$APP" ] && APP=$(head -1 fabrik/BAUEN | tr -d '[:space:]')
+          test -f "fabrik/$APP/pubspec.yaml" || { echo "Keine App in fabrik/$APP"; exit 1; }
+          echo "app=$APP" >> "$GITHUB_OUTPUT"
+          # fabrik/NUR_STORE vorhanden → nur Store-Eintrag, kein neuer Bau (spart Mac-Minuten)
+          if [ -f fabrik/NUR_STORE ] || [ "${{ github.event.inputs.nur_testflight }}" = "true" ]; then echo "bauen=nein" >> "$GITHUB_OUTPUT"; else echo "bauen=ja" >> "$GITHUB_OUTPUT"; fi
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - working-directory: fabrik/${{ steps.a.outputs.app }}
+        run: |
+          flutter pub get
+          flutter analyze 2>&1 | tee "$RUNNER_TEMP/test.log"
+          flutter test 2>&1 | tail -40 | tee -a "$RUNNER_TEMP/test.log"
+      - if: always()
+        run: cp "$RUNNER_TEMP/test.log" test.log 2>/dev/null || echo "kein Log" > test.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: lauf-test, path: test.log }
+
+  # Bundle-ID + Capabilities anlegen, App-Eintrag pruefen (billig unter Linux).
+  apple:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      bundle: ${{ steps.b.outputs.bundle }}
+    env:
+      APP_DIR: fabrik/${{ needs.test.outputs.app }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - id: b
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          [ -z "$ASC_KEY_P8" ] && { echo "Secret ASC_KEY_P8 fehlt." | tee apple.log; exit 1; }
+          echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          export ASC_KEY_PATH="$RUNNER_TEMP/asc.p8"
+          BUNDLE=$(grep -o 'PRODUCT_BUNDLE_IDENTIFIER = [^;]*' "$APP_DIR/ios/Runner.xcodeproj/project.pbxproj" \
+            | sed 's/.* = //' | grep -v RunnerTests | head -1)
+          echo "bundle=$BUNDLE" >> "$GITHUB_OUTPUT"
+          node fabrik/tool/asc_bundle.js "$APP_DIR" 2>&1 | tee apple.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: lauf-apple, path: apple.log }
+
+  # Store-Eintrag ausfuellen (Texte, Bilder, Kaeufe …). Blockiert den Bau nicht.
+  store:
+    needs: [test, apple]
+    runs-on: ubuntu-latest
+    env:
+      APP_DIR: fabrik/${{ needs.test.outputs.app }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          export ASC_KEY_PATH="$RUNNER_TEMP/asc.p8"
+          node fabrik/tool/asc_einrichten.js "$APP_DIR" 2>&1 | tee store.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: lauf-store, path: store.log }
+
+  build:
+    needs: [test, apple]
+    if: needs.test.outputs.bauen == 'ja'
+    runs-on: macos-26   # Apple verlangt das iOS-26-SDK (Xcode 26)
+    timeout-minutes: 60
+    env:
+      APP_DIR: fabrik/${{ needs.test.outputs.app }}
+      BUNDLE_ID: ${{ needs.apple.outputs.bundle }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode 26 waehlen
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$X" ]; then echo "Kein Xcode 26:"; ls /Applications | grep Xcode; exit 1; fi
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Werkzeuge und Schluessel
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          pip install --quiet codemagic-cli-tools
+          echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          echo "ASC_KEY_PATH=$RUNNER_TEMP/asc.p8" >> "$GITHUB_ENV"
+          : > "$RUNNER_TEMP/build.log"
+      - name: Buildnummer bei Apple abfragen
+        run: |
+          N=$(node fabrik/tool/asc_buildnummer.js "$BUNDLE_ID" 2>>"$RUNNER_TEMP/build.log")
+          echo "BUILD_NUMBER=$N" >> "$GITHUB_ENV"
+          echo "Build $N" | tee -a "$RUNNER_TEMP/build.log"
+      - name: Signieren
+        working-directory: ${{ env.APP_DIR }}
+        env:
+          APP_STORE_CONNECT_ISSUER_ID: ${{ env.ASC_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ env.ASC_KEY_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_KEY_P8 }}
+          CERT_PRIVATE_KEY: ${{ secrets.CERT_PRIVATE_KEY }}
+          FABRIK_TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: |
+          flutter pub get
+          keychain initialize
+          if [ -z "$CERT_PRIVATE_KEY" ]; then
+            # Neuer Signierschluessel; fetch-signing-files --create legt dazu ein neues
+            # Apple-Distribution-Zertifikat an. Schluessel als Secret sichern (woche.yml
+            # kopiert ihn jede Woche weiter).
+            openssl genrsa -out "$RUNNER_TEMP/cert_key.pem" 2048 2>/dev/null
+            CERT_PRIVATE_KEY=$(openssl base64 -A -in "$RUNNER_TEMP/cert_key.pem")
+            echo "::add-mask::$CERT_PRIVATE_KEY"
+            pip install --quiet pynacl
+            GH_TOKEN="$FABRIK_TOKEN" python3 "$GITHUB_WORKSPACE/fabrik/tool/secret_setzen.py" "$GITHUB_REPOSITORY" CERT_PRIVATE_KEY "$CERT_PRIVATE_KEY" \
+              && echo "Neuer Signierschluessel erzeugt und als Secret gespeichert." | tee -a "$RUNNER_TEMP/build.log"
+          else
+            echo "$CERT_PRIVATE_KEY" | openssl base64 -A -d > "$RUNNER_TEMP/cert_key.pem"
+          fi
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --certificate-key=@file:$RUNNER_TEMP/cert_key.pem \
+            --create 2>&1 | tail -30 | tee -a "$RUNNER_TEMP/build.log"
+          keychain add-certificates
+          xcode-project use-profiles 2>&1 | tail -20 | tee -a "$RUNNER_TEMP/build.log"
+      - name: IPA bauen
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          flutter build ipa --release \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=$HOME/export_options.plist 2>&1 | tee "$RUNNER_TEMP/ipa.log"
+      - name: Zu Apple hochladen (TestFlight)
+        working-directory: ${{ env.APP_DIR }}
+        env:
+          APP_STORE_CONNECT_ISSUER_ID: ${{ env.ASC_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ env.ASC_KEY_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          app-store-connect publish --path "$(ls build/ios/ipa/*.ipa | head -1)" 2>&1 \
+            | tail -30 | tee -a "$RUNNER_TEMP/build.log"
+      - if: always()
+        run: |
+          {
+            cat "$RUNNER_TEMP/build.log" 2>/dev/null
+            if [ -f "$RUNNER_TEMP/ipa.log" ]; then
+              echo "--- flutter build ipa (Fehler/letzte Zeilen) ---"
+              grep -E "error:|Error:|Exception|failed|FAILED|❌|warning: .*deprecated" "$RUNNER_TEMP/ipa.log" | grep -v "^\s*$" | head -60 || true
+              echo "..."
+              tail -25 "$RUNNER_TEMP/ipa.log"
+            fi
+          } > build.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: lauf-build, path: build.log }
+
+  # Tester (TESTFLIGHT_TESTER) bekommen die App in TestFlight – nach jedem Bau.
+  testflight:
+    needs: [test, apple, build]
+    if: always() && needs.apple.result == 'success' && (needs.build.result == 'success' || needs.test.outputs.bauen == 'nein')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      APP_DIR: fabrik/${{ needs.test.outputs.app }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: |
+          # Tester-Adressen liegen privat in app-radar (fabrik/TESTER), nicht in diesem oeffentlichen Repo.
+          git clone -q --depth 1 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" "$RUNNER_TEMP/t"
+          export TESTER="$(cat "$RUNNER_TEMP/t/fabrik/TESTER" 2>/dev/null | tr '\n' ' ')"
+          for m in $TESTER; do echo "::add-mask::$m"; done
+          echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          export ASC_KEY_PATH="$RUNNER_TEMP/asc.p8"
+          node fabrik/tool/asc_testflight.js "$APP_DIR" 2>&1 | tee testflight.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: lauf-testflight, path: testflight.log }
+
+  bericht:
+    needs: [test, apple, store, build, testflight]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: logs, pattern: lauf-*, merge-multiple: true }
+      - name: fabrik/LAUF.md schreiben
+        env:
+          APP: ${{ needs.test.outputs.app }}
+          R_TEST: ${{ needs.test.result }}
+          R_APPLE: ${{ needs.apple.result }}
+          R_STORE: ${{ needs.store.result }}
+          R_BUILD: ${{ needs.build.result }}
+          R_TF: ${{ needs.testflight.result }}
+          LAUF: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          zeichen() { case "$1" in success) echo "✅";; skipped) echo "⏭";; *) echo "❌";; esac; }
+          {
+            echo "# Letzter Lauf: ${APP:-?} – $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo
+            echo "$LAUF"
+            echo
+            echo "| Schritt | Ergebnis |"
+            echo "|---|---|"
+            echo "| Tests | $(zeichen $R_TEST) $R_TEST |"
+            echo "| Apple (Bundle-ID, App-Eintrag) | $(zeichen $R_APPLE) $R_APPLE |"
+            echo "| Store-Eintrag ausfüllen | $(zeichen $R_STORE) $R_STORE |"
+            echo "| Bauen + TestFlight | $(zeichen $R_BUILD) $R_BUILD |"
+            echo "| TestFlight-Tester | $(zeichen $R_TF) $R_TF |"
+            for f in test apple store build testflight; do
+              [ -f "logs/$f.log" ] || continue
+              echo; echo "## $f"; echo; echo '```'; grep -v "^✅" "logs/$f.log" | tail -150; echo '```'
+            done
+          } > fabrik/LAUF.md
+          # Oeffentliches Repo: keine E-Mail-Adressen im Bericht.
+          sed -i -E 's/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/…@…/g' fabrik/LAUF.md
+          # Stand je App – daraus stoesst die App-Fabrik wartende Apps spaeter erneut an.
+          mkdir -p fabrik/STATUS
+          if [ -n "$APP" ]; then
+            ALT=$(cat "fabrik/STATUS/$APP" 2>/dev/null || true)
+            if [ "$R_BUILD" = success ]; then echo fertig > "fabrik/STATUS/$APP"
+            elif [ "$R_APPLE" = failure ]; then echo wartet-auf-eintrag > "fabrik/STATUS/$APP"
+            elif [ "$R_BUILD" = skipped ] && [ "$ALT" = fertig ]; then echo fertig > "fabrik/STATUS/$APP"
+            else echo fehler > "fabrik/STATUS/$APP"; fi
+          fi
+          git config user.name "fabrik-bot"
+          git config user.email "fabrik-bot@users.noreply.github.com"
+          # Bericht auf den neuesten Stand des Zweigs setzen (ein anderer Lauf kann
+          # gerade dieselben Dateien geschrieben haben) – bis zu 5 Versuche.
+          mkdir -p /tmp/bericht && cp -r fabrik/LAUF.md fabrik/STATUS /tmp/bericht/
+          BRANCH="${GITHUB_REF_NAME}"
+          for i in 1 2 3 4 5; do
+            git fetch -q origin "$BRANCH" && git reset -q --hard "origin/$BRANCH"
+            cp /tmp/bericht/LAUF.md fabrik/LAUF.md
+            mkdir -p fabrik/STATUS && [ -n "$APP" ] && cp "/tmp/bericht/STATUS/$APP" "fabrik/STATUS/$APP"
+            git add fabrik/LAUF.md fabrik/STATUS
+            git commit -q -m "Lauf ${APP}: Bauen $R_BUILD" || exit 0
+            git push -q origin "HEAD:$BRANCH" && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
+      - name: Telegram
+        env:
+          TG: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          APP: ${{ needs.test.outputs.app }}
+          OK: ${{ needs.build.result == 'success' }}
+          APPLE: ${{ needs.apple.result }}
+          STORE: ${{ needs.store.result }}
+          LAUF: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          [ -z "$TG" ] && { echo "Telegram nicht eingerichtet."; exit 0; }
+          if [ "$OK" = "true" ]; then
+            TEXT="✅ $APP hochgeladen – bald in TestFlight. Store-Eintrag: $STORE"
+          elif [ "$APPLE" = "failure" ] && [ -f "fabrik/$APP/store/asc.json" ]; then
+            NAME=$(node -e "const j=require('./fabrik/$APP/store/asc.json');console.log(j.locales['de-DE'].name)")
+            BUNDLE=$(grep -o 'PRODUCT_BUNDLE_IDENTIFIER = [^;]*' "fabrik/$APP/ios/Runner.xcodeproj/project.pbxproj" | sed 's/.* = //' | grep -v RunnerTests | head -1)
+            HAND=$(grep -h "von Hand" logs/apple.log 2>/dev/null | head -3)
+            TEXT="📱 Neue App $APP wartet auf dich (1 Minute, Handy-Browser):
+          appstoreconnect.apple.com → Apps → + → Neue App
+          Name: $NAME
+          Primärsprache: Deutsch
+          Bundle-ID: $BUNDLE
+          SKU: $APP-$(date -u +%Y)
+          $HAND
+          Danach geht es automatisch weiter (spätestens nach ein paar Stunden)."
+          else
+            TEXT="❌ $APP: nicht durch, Details in fabrik/LAUF.md"
+          fi
+          curl -s -X POST "https://api.telegram.org/bot$TG/sendMessage" \
+            --data-urlencode chat_id="$CHAT" --data-urlencode text="$TEXT
+          $LAUF" > /dev/null

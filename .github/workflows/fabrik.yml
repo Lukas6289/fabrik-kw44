@@ -1,0 +1,297 @@
+# App-Fabrik: nachts nach dem App-Radar baut Claude eine iOS-App nach FABRIK.md.
+# Laeuft in diesem oeffentlichen Wochen-Repo (Actions gratis) und arbeitet im
+# privaten Repo Lukas6289/app-radar ("Tresor", Ordner t/): Regeln, Berichte,
+# alle App-Quellen. Die fertige App wird hierher kopiert und mit fabrik/BAUEN
+# an ios.yml uebergeben.
+#
+# Secrets: CLAUDE_CODE_OAUTH_TOKEN, FABRIK_TOKEN (Schreibrecht auf app-radar,
+#          dieses Repo und Lukas6289.github.io).
+
+name: App-Fabrik
+
+on:
+  workflow_run:
+    workflows: [App-Radar]
+    types: [completed]
+  schedule:
+    # Mehrere Rueckfall-Zeiten: GitHub laesst geplante Laeufe oft ausfallen.
+    # Doppelt gebaut wird nicht – „heute schon gebaut?“ bricht frueh ab.
+    # Rueckfall nachts, falls der Radar-Lauf um 2 Uhr ausfiel (UTC; ~3:37–5:37 Sommer-, 2:37–4:37 Winterzeit).
+    - cron: '37 1,2,3 * * *'
+    - cron: '43 9,13,17 * * *'    # wartende Apps erneut anstossen (App-Eintrag inzwischen da?)
+  workflow_dispatch:
+    inputs:
+      aufgabe:
+        description: 'Was tun?'
+        type: choice
+        options: [waechter, bauen, nachziehen]
+        default: bauen
+      trotzdem:
+        description: 'Auch bauen, wenn heute schon eine App gebaut wurde'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fabrik
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  bauen:
+    if: github.event.schedule != '43 9,13,17 * * *' && (github.event_name != 'workflow_dispatch' || github.event.inputs.aufgabe == 'bauen' || github.event.inputs.aufgabe == 'waechter')
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    defaults:
+      run:
+        working-directory: t
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main, token: '${{ secrets.FABRIK_TOKEN }}', path: woche }
+      - name: Tresor (app-radar) holen
+        working-directory: .
+        env:
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: git clone -q --depth 20 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" t
+
+      - name: Heute schon gebaut? / gestoppt?
+        id: plan
+        env:
+          TROTZDEM: ${{ github.event.inputs.trotzdem }}
+        run: |
+          HEUTE=$(TZ=Europe/Berlin date +%F)
+          echo "heute=$HEUTE" >> "$GITHUB_OUTPUT"
+          # Automatisch erst ab 2 Uhr nachts bauen (Claude-Kontingent nachts nutzen); von Hand jederzeit.
+          STUNDE=$(TZ=Europe/Berlin date +%H)
+          if [ "${{ github.event.inputs.aufgabe }}" != "bauen" ] && [ "$STUNDE" -lt 2 ]; then
+            echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Vor 2 Uhr – der Nachtlauf kommt noch."; exit 0
+          fi
+          # Kein App-Limit mehr (Lukas, 24.10.): taeglich weiter, bis er „es reicht“ sagt –
+          # dann Datei fabrik/STOP anlegen.
+          if [ -f fabrik/STOP ]; then echo "los=nein" >> "$GITHUB_OUTPUT"; echo "fabrik/STOP vorhanden – Fabrik pausiert."; exit 0; fi
+          if grep -q "($HEUTE)" fabrik/gebaut.md && [ "$TROTZDEM" != "true" ]; then
+            echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Heute schon gebaut."; exit 0
+          fi
+          # Hoechstens 2 Fehlversuche pro Tag – sonst verbraucht der Waechter das Claude-Kontingent.
+          FEHL=$(grep -c "^- $HEUTE: App-Fabrik" fabrik/fuer-lukas.md || true)
+          if [ "$FEHL" -ge 2 ] && [ "$TROTZDEM" != "true" ]; then
+            echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Heute schon 2x gescheitert – morgen wieder."; exit 0
+          fi
+          echo "los=ja" >> "$GITHUB_OUTPUT"
+          ls fabrik > "$RUNNER_TEMP/vorher.txt"
+
+      - if: steps.plan.outputs.los == 'ja'
+        uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: t/package-lock.json }
+
+      # Kein Radar-Bericht von heute (geplanter Radar-Lauf ausgefallen)? Dann hier.
+      - name: Radar nachholen
+        if: steps.plan.outputs.los == 'ja'
+        continue-on-error: true
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BERICHT_URL: https://github.com/Lukas6289/app-radar/blob/main/berichte
+        run: |
+          DATUM=$(date -u +%F)
+          [ -f "berichte/$DATUM.md" ] && { echo "Radar-Bericht von heute da."; exit 0; }
+          npm ci --silent
+          node src/radar.mjs > "$RUNNER_TEMP/radar.log" 2>&1
+          { cat prompts/analyse.md; cat daten/kandidaten/$DATUM.json; } > "$RUNNER_TEMP/prompt.md"
+          npx -y @anthropic-ai/claude-code -p --output-format text --max-turns 1 \
+            < "$RUNNER_TEMP/prompt.md" > "$RUNNER_TEMP/antwort.json"
+          export BERICHT_URL="$BERICHT_URL/$DATUM.md"
+          node src/bericht.mjs "$RUNNER_TEMP/antwort.json" > /dev/null
+          git config user.name "app-radar"
+          git config user.email "app-radar@users.noreply.github.com"
+          git add daten berichte 2>/dev/null || true
+          git commit -q -m "Radar $DATUM (aus der Fabrik)" && git pull -q --rebase origin main && git push -q || true
+
+      - if: steps.plan.outputs.los == 'ja'
+        uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - if: steps.plan.outputs.los == 'ja'
+        working-directory: .
+        run: pip install --quiet cairosvg
+
+      - name: Claude baut die App
+        if: steps.plan.outputs.los == 'ja'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          HEUTE: ${{ steps.plan.outputs.heute }}
+        run: |
+          cat > "$RUNNER_TEMP/auftrag.md" <<EOF
+          Du bist die App-Fabrik und arbeitest allein in diesem Repo (aktuelles Verzeichnis), ohne Rückfragen.
+          Heute ist $HEUTE. Flutter, Node und cairosvg sind installiert; Internet ist frei.
+
+          1. Lies FABRIK.md komplett und halte dich strikt an alle Regeln dort.
+          2. Wähle die App-Idee aus dem neuesten Bericht in berichte/ (die beste, die die Regeln erfüllt
+             und noch nicht in fabrik/gebaut.md steht; sonst eigene Idee).
+          3. Recherche 2 (Vorbild) VOR dem Bauen: fabrik/<kurzname>/RECHERCHE.md mit allen Abschnitten aus
+             FABRIK.md (Vorbild, Funktionen, Was Nutzer lieben, Was Nutzer hassen, Design des Vorbilds, Bauplan).
+             Alles Gute am Vorbild nachbauen (eigene Umsetzung), jede häufige Beschwerde besser lösen.
+          4. Baue sie in fabrik/<kurzname>/ nach dem Bauplan, mit fabrik/flugfenster/ als technischer Vorlage
+             (Aufbau, Pro/Paywall, Swift-Brücke in ios/Runner/AppDelegate.swift, Runner.entitlements,
+             Lokalisierung, Tests mit Fakes, Symbol, Bildschirmfotos, store/texte.md, store/datenschutz.html
+             mit Lukas' Kontakt wie bei Flugfenster, und store/asc.json im selben Format wie
+             fabrik/flugfenster/store/asc.json). Gestaltung nach der Design-Messlatte – NICHT die Optik
+             der Vorlage übernehmen, jede App bekommt ihr eigenes, hochwertiges Design.
+          5. flutter analyze und flutter test in fabrik/<kurzname>/ müssen grün sein.
+             Bildschirmfotos mit: flutter test screenshots
+          6. Design-Selbstprüfung aus FABRIK.md (mindestens zwei Runden, Bilder selbst ansehen, mit den
+             Vorbild-Bildschirmfotos vergleichen, unter 8 Punkten überarbeiten) und als "## Design-Prüfung"
+             in RECHERCHE.md festhalten. Danach erneut analyze/test/screenshots.
+             Danach Abstand zum Vorbild prüfen (FABRIK.md „Abstand zum Vorbild“: Name, Symbol, Design,
+             Store-Bilder, Texte/Suchbegriffe ohne fremde Marken, ≥ 3 eigene Ideen) und als
+             "## Abstand zum Vorbild" in RECHERCHE.md festhalten. Verwechselbar Ähnliches vorher ändern.
+          7. Trag die App in fabrik/gebaut.md ein (Überschrift genau: "## <Nr>. <Name> ($HEUTE)")
+             und die Handgriffe für Lukas in fabrik/fuer-lukas.md (App-Eintrag mit Name, Bundle-ID, SKU,
+             Primärsprache; Capabilities, die Apple nicht per API einschaltet, z. B. WeatherKit).
+          8. Schreib den Ordnernamen (nur <kurzname>) in die Datei fabrik/HEUTE.
+          Nicht committen, nicht pushen – das macht der Workflow danach.
+          EOF
+          npx -y @anthropic-ai/claude-code -p "$(cat "$RUNNER_TEMP/auftrag.md")" \
+            --permission-mode bypassPermissions --max-turns 700 --output-format text \
+            > "$RUNNER_TEMP/claude.log" 2>&1 || true
+          # Oeffentliches Protokoll: nur das Ende von Claudes Antwort.
+          tail -c 1500 "$RUNNER_TEMP/claude.log"
+
+      - name: Pruefen
+        id: pruef
+        if: steps.plan.outputs.los == 'ja'
+        run: |
+          APP=$(head -1 fabrik/HEUTE 2>/dev/null | tr -d '[:space:]')
+          if [ -z "$APP" ]; then
+            APP=$(comm -13 <(sort "$RUNNER_TEMP/vorher.txt") <(ls fabrik | sort) | head -1)
+          fi
+          echo "app=$APP" >> "$GITHUB_OUTPUT"
+          if [ -z "$APP" ] || [ ! -f "fabrik/$APP/pubspec.yaml" ]; then
+            echo "gruen=nein" >> "$GITHUB_OUTPUT"; echo "Keine neue App gefunden."; exit 0
+          fi
+          cd "fabrik/$APP"
+          flutter pub get >/dev/null
+          FEHLT=""
+          for h in "## Funktionen" "## Bauplan" "## Design-Prüfung" "## Abstand zum Vorbild"; do
+            grep -q "^$h" RECHERCHE.md 2>/dev/null || FEHLT="$FEHLT ${h#\#\# }"
+          done
+          [ -n "$FEHLT" ] && echo "RECHERCHE.md unvollständig:$FEHLT"
+          if [ -z "$FEHLT" ] && flutter analyze && flutter test; then echo "gruen=ja" >> "$GITHUB_OUTPUT"; else echo "gruen=nein" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Sichern
+        if: always() && steps.plan.outputs.los == 'ja'
+        env:
+          HEUTE: ${{ steps.plan.outputs.heute }}
+          APP: ${{ steps.pruef.outputs.app }}
+          GRUEN: ${{ steps.pruef.outputs.gruen }}
+        run: |
+          rm -f fabrik/HEUTE
+          if [ "$GRUEN" != "ja" ]; then
+            { echo "- $HEUTE: App-Fabrik – ${APP:-keine App} nicht fertig (Tests/Analyse rot oder abgebrochen)."
+              echo "  Letzte Zeilen von Claude: $(tail -c 600 "$RUNNER_TEMP/claude.log" | tr '\n' ' ')"; } > "$RUNNER_TEMP/notiz.txt"
+            { head -1 fabrik/fuer-lukas.md; echo; cat "$RUNNER_TEMP/notiz.txt"; tail -n +2 fabrik/fuer-lukas.md; } > "$RUNNER_TEMP/fl.md"
+            cp "$RUNNER_TEMP/fl.md" fabrik/fuer-lukas.md
+          fi
+          git config user.name "app-fabrik"
+          git config user.email "app-fabrik@users.noreply.github.com"
+          git add -A fabrik FABRIK.md
+          git commit -q -m "App-Fabrik $HEUTE: ${APP:-ohne App} ($([ "$GRUEN" = ja ] && echo gruen || echo nicht fertig))" || exit 0
+          git pull -q --rebase origin main && git push -q
+
+      - name: An die iOS-Pipeline uebergeben
+        id: weiter
+        if: steps.pruef.outputs.gruen == 'ja'
+        working-directory: woche
+        env:
+          APP: ${{ steps.pruef.outputs.app }}
+        run: |
+          rm -rf "fabrik/$APP"
+          mkdir -p fabrik/tool
+          cp -r "../t/fabrik/$APP" "fabrik/$APP"
+          cp ../t/fabrik/tool/*.js fabrik/tool/ 2>/dev/null || true
+          { echo "$APP"; date -u +%FT%TZ; } > fabrik/BAUEN
+          git config user.name "app-fabrik"
+          git config user.email "app-fabrik@users.noreply.github.com"
+          git add -A fabrik
+          git commit -q -m "App-Fabrik: $APP übergeben"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+          echo "status=ok" >> "$GITHUB_OUTPUT"
+
+      - name: Support- und Datenschutzseite veroeffentlichen
+        if: steps.pruef.outputs.gruen == 'ja'
+        continue-on-error: true
+        env:
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+          APP: ${{ steps.pruef.outputs.app }}
+        run: |
+          [ -z "$TOKEN" ] && exit 0
+          git clone -q --depth 1 "https://x-access-token:$TOKEN@github.com/Lukas6289/Lukas6289.github.io" "$RUNNER_TEMP/site"
+          node fabrik/tool/seiten.js "fabrik/$APP" "$RUNNER_TEMP/site/$APP"
+          cd "$RUNNER_TEMP/site"
+          git config user.name "app-fabrik"
+          git config user.email "app-fabrik@users.noreply.github.com"
+          git add -A "$APP"
+          git commit -q -m "$APP: Support- und Datenschutzseite" || exit 0
+          git push -q
+
+      - name: Telegram
+        if: always() && steps.plan.outputs.los == 'ja'
+        env:
+          TG: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          APP: ${{ steps.pruef.outputs.app }}
+          GRUEN: ${{ steps.pruef.outputs.gruen }}
+          WEITER: ${{ steps.weiter.outputs.status }}
+          LAUF: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          [ -z "$TG" ] && exit 0
+          if [ "$GRUEN" = "ja" ]; then
+            TEXT="🏭 App-Fabrik: $APP ist gebaut, Tests grün."
+            case "$WEITER" in
+              ok) TEXT="$TEXT An die iOS-Pipeline übergeben – Nachricht von dort folgt. Neue App? Dann App-Eintrag anlegen (siehe fabrik/fuer-lukas.md).";;
+              *) TEXT="$TEXT Noch nicht übergeben (FABRIK_TOKEN fehlt).";;
+            esac
+          else
+            TEXT="❌ App-Fabrik: heute keine fertige App (${APP:-keine}). Details in fabrik/fuer-lukas.md."
+          fi
+          curl -s -X POST "https://api.telegram.org/bot$TG/sendMessage" \
+            --data-urlencode chat_id="$CHAT" --data-urlencode text="$TEXT
+          $LAUF" > /dev/null
+
+  # Apps, die bei Apple auf den App-Eintrag warten, regelmaessig erneut an die
+  # iOS-Pipeline geben. Sobald Lukas den Eintrag angelegt hat, laeuft der Rest
+  # (Store-Eintrag, Bau, TestFlight) von selbst. Fehlt er noch, bricht die
+  # Pipeline billig unter Linux ab – keine Mac-Minuten.
+  nachziehen:
+    if: github.event.schedule == '43 9,13,17 * * *' || github.event.inputs.aufgabe == 'nachziehen' || github.event.inputs.aufgabe == 'waechter'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main, token: '${{ secrets.FABRIK_TOKEN }}' }
+      - name: Wartende App anstossen
+        env:
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: |
+          WARTEND=$( (grep -l -x 'wartet-auf-eintrag' fabrik/STATUS/* 2>/dev/null || true) | xargs -r -n1 basename | sort)
+          [ -z "$WARTEND" ] && { echo "Nichts wartet."; exit 0; }
+          # reihum: die App nach der zuletzt angestossenen
+          LETZTE=$(head -1 fabrik/BAUEN 2>/dev/null | tr -d '[:space:]')
+          APP=$(printf '%s\n' $WARTEND | awk -v l="$LETZTE" 'f{print;exit} $0==l{f=1}')
+          [ -z "$APP" ] && APP=$(printf '%s\n' $WARTEND | head -1)
+          if [ ! -d "fabrik/$APP" ]; then
+            git clone -q --depth 1 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" "$RUNNER_TEMP/t"
+            cp -r "$RUNNER_TEMP/t/fabrik/$APP" "fabrik/$APP"
+          fi
+          { echo "$APP"; date -u +%FT%TZ; } > fabrik/BAUEN
+          date -u +%FT%TZ > fabrik/ANSTOSS
+          git config user.name "app-fabrik"
+          git config user.email "app-fabrik@users.noreply.github.com"
+          git add -A fabrik
+          git commit -q -m "Erneut versuchen: $APP"
+          git push -q origin HEAD:main
+          echo "Angestossen: $APP"

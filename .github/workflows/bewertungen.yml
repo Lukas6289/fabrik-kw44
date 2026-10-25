@@ -1,0 +1,46 @@
+# Bewertungen aller Apps aus App Store Connect holen und in
+# fabrik/BEWERTUNGEN/ ablegen (nur lesen). Der Fabrik-Kontrolleur (Claude,
+# jede Nacht ~3 Uhr) startet das, indem er fabrik/BEWERTUNGEN/HOLEN aendert und
+# pusht – oder von Hand: Actions → „Bewertungen holen“ → Run workflow.
+
+name: Bewertungen holen
+
+on:
+  push:
+    branches: [main]
+    paths: ['fabrik/BEWERTUNGEN/HOLEN']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bewertungen
+  cancel-in-progress: false
+
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Bewertungen laden
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          echo "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"
+          ASC_KEY_PATH="$RUNNER_TEMP/asc.p8" node fabrik/tool/asc_bewertungen.js fabrik/BEWERTUNGEN
+      - name: Sichern
+        run: |
+          git config user.name "fabrik-bot"
+          git config user.email "fabrik-bot@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git add fabrik/BEWERTUNGEN
+            git commit -q -m "Bewertungen $(date -u +%F)" || exit 0
+            git push -q origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" || true
+            sleep $((i * 5))
+          done
+          exit 1

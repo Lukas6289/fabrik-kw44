@@ -1,0 +1,115 @@
+# Wochenwechsel (Lukas' Plan): jede Woche ein neues oeffentliches Repo
+# fabrik-kwNN, das alte wird Sonntagabend privat gestellt.
+#  1. neues oeffentliches Repo anlegen, Werkzeuge + Workflows + Stand hinein
+#     (keine App-Quellen – die kommen bei Bedarf aus app-radar)
+#  2. Secrets hinueberkopieren
+#  3. app-radar/fabrik/WOCHE auf das neue Repo setzen
+#  4. Actions im alten Repo abschalten und es auf privat stellen
+#
+# Secrets: FABRIK_TOKEN (Administration, Contents, Secrets, Workflows, Actions:
+#          Read and write auf allen Repos) + alle, die weiterkopiert werden.
+
+name: Wochenwechsel
+
+on:
+  schedule:
+    - cron: '13 18,19 * * 0'   # Sonntag 20:13 deutscher Zeit (Sommer/Winter)
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name des neuen Repos (leer = fabrik-kw<naechste Woche>)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: woche
+  cancel-in-progress: false
+
+jobs:
+  drehen:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.FABRIK_TOKEN }}
+      ALT: ${{ github.repository }}
+    steps:
+      - name: Zeit und Zustaendigkeit pruefen
+        id: p
+        env:
+          IN_NAME: ${{ github.event.inputs.name }}
+        run: |
+          if [ "${{ github.event_name }}" = schedule ] && [ "$(TZ=Europe/Berlin date +%H)" != 20 ]; then
+            echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Nicht 20 Uhr in Berlin – der andere Lauf ist dran."; exit 0; fi
+          git clone -q --depth 1 "https://x-access-token:$GH_TOKEN@github.com/Lukas6289/app-radar" t
+          AKTIV=$(head -1 t/fabrik/WOCHE 2>/dev/null | tr -d '[:space:]')
+          if [ -n "$AKTIV" ] && [ "$AKTIV" != "$ALT" ]; then
+            echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Aktives Wochen-Repo ist $AKTIV, nicht $ALT."; exit 0; fi
+          NEU="$IN_NAME"
+          [ -z "$NEU" ] && NEU="fabrik-kw$(TZ=Europe/Berlin date -d 'next monday' +%V)"
+          if gh api "repos/Lukas6289/$NEU" >/dev/null 2>&1; then NEU="fabrik-$(TZ=Europe/Berlin date -d 'next monday' +%G)-kw$(TZ=Europe/Berlin date -d 'next monday' +%V)"; fi
+          [ "Lukas6289/$NEU" = "$ALT" ] && { echo "los=nein" >> "$GITHUB_OUTPUT"; echo "Schon gedreht."; exit 0; }
+          echo "neu=$NEU" >> "$GITHUB_OUTPUT"; echo "los=ja" >> "$GITHUB_OUTPUT"
+          echo "Neues Wochen-Repo: $NEU"
+
+      - uses: actions/checkout@v4
+        if: steps.p.outputs.los == 'ja'
+        with: { path: alt }
+
+      - name: Neues Repo anlegen und fuellen
+        if: steps.p.outputs.los == 'ja'
+        env:
+          NEU: ${{ steps.p.outputs.neu }}
+        run: |
+          gh api -X POST /user/repos -f name="$NEU" -F private=false \
+            -f description="App-Fabrik – Wochen-Repo (wird nach einer Woche privat)" >/dev/null
+          mkdir neu && cd neu
+          mkdir -p fabrik
+          cp -r ../alt/.github ../alt/README.md . 2>/dev/null || true
+          cp -r ../alt/fabrik/tool ../alt/fabrik/STATUS ../alt/fabrik/BEWERTUNGEN fabrik/ 2>/dev/null || true
+          git init -q -b main
+          git config user.name "app-fabrik"
+          git config user.email "app-fabrik@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Wochen-Repo $NEU [skip ci]"
+          git push -q "https://x-access-token:$GH_TOKEN@github.com/Lukas6289/$NEU" main
+
+      - name: Secrets kopieren
+        if: steps.p.outputs.los == 'ja'
+        env:
+          NEU: ${{ steps.p.outputs.neu }}
+          S_ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          S_CERT_PRIVATE_KEY: ${{ secrets.CERT_PRIVATE_KEY }}
+          S_CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          S_FABRIK_TOKEN: ${{ secrets.FABRIK_TOKEN }}
+          S_TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          S_TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          pip install --quiet pynacl
+          for n in ASC_KEY_P8 CERT_PRIVATE_KEY CLAUDE_CODE_OAUTH_TOKEN FABRIK_TOKEN TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID; do
+            v="$(printenv "S_$n" || true)"
+            [ -z "$v" ] && { echo "– $n nicht vorhanden, uebersprungen"; continue; }
+            python3 alt/fabrik/tool/secret_setzen.py "Lukas6289/$NEU" "$n" "$v"
+          done
+
+      - name: app-radar auf das neue Repo zeigen lassen
+        if: steps.p.outputs.los == 'ja'
+        env:
+          NEU: ${{ steps.p.outputs.neu }}
+        run: |
+          cd t
+          echo "Lukas6289/$NEU" > fabrik/WOCHE
+          git config user.name "app-fabrik"
+          git config user.email "app-fabrik@users.noreply.github.com"
+          git add fabrik/WOCHE
+          git commit -q -m "Wochen-Repo: $NEU"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q && break; sleep 5; done
+
+      - name: Altes Repo abschalten und privat stellen
+        if: steps.p.outputs.los == 'ja'
+        run: |
+          # Erst Actions aus (privat wuerden sie Minuten kosten), dann privat.
+          gh api -X PUT "repos/$ALT/actions/permissions" -F enabled=false
+          gh api -X PATCH "repos/$ALT" -F private=true >/dev/null
+          echo "$ALT ist jetzt privat."

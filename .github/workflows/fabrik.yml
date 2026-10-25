@@ -24,7 +24,7 @@ on:
       aufgabe:
         description: 'Was tun?'
         type: choice
-        options: [waechter, bauen, nachziehen]
+        options: [waechter, bauen, nachziehen, test]
         default: bauen
       trotzdem:
         description: 'Auch bauen, wenn heute schon eine App gebaut wurde'
@@ -295,3 +295,18 @@ jobs:
           git commit -q -m "Erneut versuchen: $APP"
           git push -q origin HEAD:main
           echo "Angestossen: $APP"
+
+  # Kurztest: Claude-Zugang und Schreibrecht auf app-radar (aendert nichts).
+  test:
+    if: github.event.inputs.aufgabe == 'test'
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          TOKEN: ${{ secrets.FABRIK_TOKEN }}
+        run: |
+          A=$(npx -y @anthropic-ai/claude-code -p "Antworte nur mit dem Wort OK." --max-turns 1 --output-format text 2>&1 | tail -1)
+          echo "Claude: $A"; [ "$A" = "OK" ] || { echo "❌ Claude-Zugang"; exit 1; }
+          git clone -q --depth 1 "https://x-access-token:$TOKEN@github.com/Lukas6289/app-radar" t && cd t
+          git -c user.name=t -c user.email=t@t commit -q --allow-empty -m test
+          git push --dry-run -q origin HEAD:refs/heads/test-gibt-es-nicht && echo "✅ app-radar schreibbar"

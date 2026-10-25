@@ -1,0 +1,344 @@
+{
+  "@@locale": "en",
+  "appTitle": "Kochmappe",
+  "tabBinder": "Binder",
+  "tabFridge": "What I have",
+  "tabShopping": "Shopping",
+  "tabMore": "More",
+  "binderTitle": "My binder",
+  "recipesWord": "{n, plural, one{recipe} other{recipes}}",
+  "@recipesWord": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "searchHint": "Search title, ingredient, tag …",
+  "clear": "Clear",
+  "tabAll": "All",
+  "tabFavorites": "Favorites",
+  "newFolder": "New folder",
+  "editFolder": "Edit folder",
+  "deleteFolder": "Delete folder",
+  "folderNameHint": "e.g. Weeknights",
+  "colorWord": "Colour",
+  "inFolder": "{n, plural, =0{No recipes in this folder} =1{1 recipe in this folder} other{{n} recipes in this folder}}",
+  "@inFolder": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "putInFolder": "Put in a folder",
+  "noFoldersYet": "No folders yet – create your first one.",
+  "change": "Change",
+  "ideaToday": "How about today?",
+  "neverCooked": "Not cooked yet",
+  "lastCooked": "{days, plural, =0{Cooked today} =1{Cooked yesterday} other{Cooked {days} days ago}}",
+  "@lastCooked": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "lastCookedOn": "Last cooked on {date}",
+  "@lastCookedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cookedTimes": "{n, plural, =1{cooked once} other{cooked {n} times}}",
+  "@cookedTimes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyBinderTitle": "Your binder is empty",
+  "emptyBinderText": "Save your first recipe from a link, paste a text or write it down yourself.",
+  "emptyFolderTitle": "Nothing here yet",
+  "emptyFolderText": "Open a recipe and put it into this folder.",
+  "noFavTitle": "No favorites yet",
+  "noFavText": "Tap the heart on a recipe to find it here.",
+  "noHitsTitle": "No recipe found",
+  "noHitsText": "Try another word – the search looks at titles, ingredients, tags and notes.",
+  "pickRecipeTitle": "Pick a recipe",
+  "pickRecipeText": "It opens here, next to your list.",
+  "addRecipe": "Add recipe",
+  "addFromLink": "From a link",
+  "addFromLinkSub": "Read a recipe from a web page",
+  "addFromText": "From pasted text",
+  "addFromTextSub": "Caption, message or note – ingredients are recognised",
+  "addByHand": "Write it yourself",
+  "addByHandSub": "Your own or a family recipe",
+  "modeLink": "Link",
+  "modeText": "Text",
+  "linkExplain": "Paste the address of a recipe page. Kochmappe reads the recipe right on your device and keeps a private copy.",
+  "textExplain": "Paste a recipe from a video caption, a message or a note. Ingredients and steps are recognised; you can correct everything afterwards.",
+  "linkHint": "https://…",
+  "textHint": "Title\nIngredients\n200 g flour\n2 eggs\nDirections\n1. Mix …",
+  "pasteFromClipboard": "Paste from clipboard",
+  "fetchRecipe": "Get recipe",
+  "recognize": "Recognise recipe",
+  "reading": "Reading …",
+  "errBadLink": "That does not look like a web address.",
+  "errNetwork": "The page could not be loaded. Are you online?",
+  "errNoRecipe": "No recipe found on this page.",
+  "errNoRecipeText": "No ingredients or steps found in this text.",
+  "errTryText": "Some pages hide their recipe or need a login. Copy the recipe text from the page and paste it instead.",
+  "switchToText": "Paste text instead",
+  "importPrivacy": "The page is fetched straight from your device. No account, no server of ours, nothing is sent anywhere else.",
+  "newRecipe": "New recipe",
+  "editRecipe": "Edit recipe",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "back": "Back",
+  "close": "Close",
+  "dismiss": "OK",
+  "photo": "Photo",
+  "photoFromLibrary": "Choose from photos",
+  "photoFromCamera": "Take a photo",
+  "photoRemove": "Remove photo",
+  "titleLabel": "Title",
+  "titleHint": "e.g. Grandma's plum cake",
+  "needTitle": "Please give the recipe a title.",
+  "prepMinLabel": "Prep, min",
+  "cookMinLabel": "Cook, min",
+  "ingredientsEditHint": "One per line, e.g. “2 tbsp olive oil”. A line ending in “:” starts a group.",
+  "ingredientsExample": "200 g flour\n2 eggs\n1 pinch salt",
+  "stepsEditHint": "One step per line.",
+  "tagsLabel": "Tags",
+  "tagsHint": "Separated by commas, e.g. quick, vegetarian",
+  "notesHint": "Where it is from, who likes it …",
+  "notes": "Notes",
+  "favorite": "Favorite",
+  "prepTime": "Prep {t}",
+  "@prepTime": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "cookTime": "Cook {t}",
+  "@cookTime": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "cookMode": "Cook mode",
+  "toList": "To list",
+  "addedToList": "{n} items added to the shopping list",
+  "@addedToList": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ingredients": "Ingredients",
+  "steps": "Directions",
+  "servingsLabel": "servings",
+  "fewer": "Fewer",
+  "more": "More",
+  "unitsMetricShort": "g · ml",
+  "unitsUsShort": "oz · cup",
+  "noIngredients": "No ingredients yet – tap the menu and choose Edit.",
+  "noSteps": "No steps yet.",
+  "timerChip": "Timer {t}",
+  "@timerChip": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "myTwist": "My twist",
+  "twistHint": "What do you change? Less sugar, more garlic … kept apart from the original.",
+  "diary": "Cooking diary",
+  "cookedToday": "Cooked today",
+  "diaryHint": "A note, e.g. “needed more salt”",
+  "shareText": "Share as text",
+  "pdfCard": "Recipe card (PDF)",
+  "deleteRecipeTitle": "Delete “{t}”?",
+  "@deleteRecipeTitle": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteRecipeText": "The recipe is removed from this device. A saved backup keeps it.",
+  "smallerText": "Smaller text",
+  "biggerText": "Bigger text",
+  "stepOf": "STEP {a} OF {b}",
+  "@stepOf": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "startTimer": "Start timer {t}",
+  "@startTimer": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "timerDone": "Time is up: {t}",
+  "@timerDone": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "previous": "Back",
+  "next": "Next",
+  "finishCooking": "Done – log it",
+  "ingredientsFor": "Ingredients for {n}",
+  "@ingredientsFor": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fridgeTitle": "What do I have?",
+  "fridgeSub": "Type what is in your kitchen. Your recipes that use it show up – with what is still missing.",
+  "fridgeHint": "e.g. eggs, spinach, rice",
+  "clearAll": "Clear all",
+  "fridgeEmptyTitle": "Empty fridge, full binder",
+  "fridgeEmptyText": "Add two or three ingredients and see what you can cook tonight.",
+  "fridgeNoneTitle": "Nothing matches yet",
+  "fridgeNoneText": "None of your recipes uses these ingredients. Try other words.",
+  "fridgeMatches": "{n, plural, =1{1 recipe fits} other{{n} recipes fit}}",
+  "@fridgeMatches": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "haveCount": "{n, plural, =1{1 ingredient at home} other{{n} ingredients at home}}",
+  "@haveCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "allThere": "All there",
+  "stillMissing": "Still missing: {t}",
+  "@stillMissing": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "shoppingTitle": "Shopping list",
+  "shoppingAddHint": "Add an item",
+  "shoppingEmptyTitle": "Nothing to buy",
+  "shoppingEmptyText": "Open a recipe and tap “To list” – equal ingredients are added up.",
+  "shoppingDone": "In the basket",
+  "removeDone": "Remove",
+  "clearList": "Empty the list",
+  "unitsTitle": "Units",
+  "unitsText": "Show amounts in grams and millilitres or in ounces and cups. Works in every recipe.",
+  "themeTitle": "Binder colour",
+  "themeProHint": "Saffron is free – more colours come with Pro.",
+  "themeProOn": "Pick the colour of your binder.",
+  "backupTitle": "Backup",
+  "backupText": "Your recipes live only on this device. Save a backup file now and then (e.g. to iCloud Drive) – restoring never overwrites anything.",
+  "backupSave": "Save backup",
+  "backupLoad": "Restore backup",
+  "backupWord": "backup",
+  "backupBad": "That file is not a Kochmappe backup.",
+  "backupRestored": "{n, plural, =0{Nothing new in this backup} =1{1 recipe restored} other{{n} recipes restored}}",
+  "@backupRestored": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "cookbookTitle": "Cookbook",
+  "cookbookMake": "Make a cookbook (PDF)",
+  "cookbookSub": "All recipes as one printable document",
+  "pdfContents": "Contents",
+  "pdfBookTitle": "My Cookbook",
+  "pdfFileWord": "cookbook",
+  "aboutTitle": "About",
+  "terms": "Terms of Use",
+  "privacy": "Privacy",
+  "contact": "Support & contact",
+  "deleteAll": "Delete all my data",
+  "deleteAllTitle": "Delete everything?",
+  "deleteAllText": "All recipes, folders, photos and the shopping list are removed from this device. This cannot be undone.",
+  "footer": "Everything stays on your device.\nNo account, no tracking, no ads.",
+  "proCardTitle": "Kochmappe Pro",
+  "proActive": "Pro is active",
+  "proCardSub": "Unlimited recipes, PDF, colours – {p} once",
+  "@proCardSub": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "proTitle": "Kochmappe Pro",
+  "proLead": "One purchase, no subscription. Everything you already use stays free.",
+  "proReasonRecipes": "Your free binder holds {n} recipes. Pro takes the limit away – for good.",
+  "@proReasonRecipes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proReasonPdf": "Recipe cards and cookbooks as PDF are part of Pro – one purchase, no subscription.",
+  "proFeatUnlimited": "Unlimited recipes and folders",
+  "proFeatUnlimitedSub": "Free holds 25 recipes and 3 folders.",
+  "proFeatPdf": "Recipe cards & cookbook as PDF",
+  "proFeatPdfSub": "Print a card for the fridge or bind all recipes into one book.",
+  "proFeatThemes": "Four more binder colours",
+  "proFeatThemesSub": "Berry, sage, sky and terracotta next to saffron.",
+  "proFreeStays": "Import, portion calculator, cook mode, timers, search, shopping list and backup stay free.",
+  "proOnce": "once · no subscription",
+  "proBuy": "Get Pro for {p}",
+  "@proBuy": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "proThanks": "Thank you – Pro is unlocked.",
+  "proPending": "Waiting for approval (Ask to Buy).",
+  "proFailed": "That did not work. Please try again.",
+  "proNothing": "No earlier purchase found for this Apple ID.",
+  "restore": "Restore purchase",
+  "welcomeTitle": "Your recipes,\nin one binder.",
+  "welcomeSub": "Save recipes from the web, scale them, cook step by step – on your phone and your iPad.",
+  "welcomeP1": "Save from a link or pasted text",
+  "welcomeP2": "No account – everything stays on your device",
+  "welcomeP3": "Free to use, Pro once instead of a subscription",
+  "welcomeGo": "Open my binder"
+}

@@ -1,0 +1,43 @@
+{
+  "primaryCategory": "FOOD_AND_DRINK",
+  "secondaryCategory": "LIFESTYLE",
+  "supportUrl": "https://lukas6289.github.io/kochmappe/",
+  "privacyUrl": "https://lukas6289.github.io/kochmappe/datenschutz.html",
+  "locales": {
+    "de-DE": {
+      "name": "Kochmappe: Rezeptsammlung",
+      "subtitle": "Rezepte speichern & umrechnen",
+      "keywords": "rezepte,rezeptsammlung,kochbuch,einkaufsliste,portionsrechner,kochen,backen,timer,speichern",
+      "promotionalText": "Deine Rezepte in einer Mappe – gratis, Pro einmalig 6,99 €. Kein Konto, kein Abo, keine Werbung.",
+      "description": "Kochmappe ist deine persönliche Rezeptsammlung: Rezepte aus dem Web, aus Texten oder aus deinem Kopf – alles an einem Ort, auf deinem Gerät, ohne Konto.\n\nGratis nutzbar, ohne Bezahlwand, ohne Abo, ohne Werbung. Importieren, umrechnen, kochen, Einkaufsliste und Sicherung sind kostenlos.\n\nREZEPTE SAMMELN\n• Aus einem Link: Kochmappe liest die Rezeptseite direkt auf deinem Gerät und legt eine private Kopie an – mit Foto, Zutaten und Schritten\n• Aus Text: Beschreibung, Nachricht oder Notiz einfügen – Zutaten und Schritte werden erkannt\n• Oder von Hand schreiben, mit eigenem Foto\n• Mappen mit Farbreitern, Tags, Favoriten, Sterne\n\nFINDEN\n• Suche in Titel, Zutaten, Tags und Notizen\n• „Was habe ich da?“: Gib ein, was in der Küche liegt – deine Rezepte zeigen, was noch fehlt\n\nKOCHEN\n• Portionsrechner mit ½, ×2, ×3, Brüchen und Wechsel zwischen g/ml und oz/cup\n• Kochmodus: ein Schritt pro Seite in großer Schrift, der Bildschirm bleibt an\n• Timer aus dem Text („30 Minuten“) – mehrere gleichzeitig\n• „Mein Dreh“: deine Änderungen getrennt vom Original\n• Koch-Tagebuch: wann gekocht, wie war es\n\nEINKAUFEN & SICHERN\n• Einkaufsliste aus beliebigen Rezepten, gleiche Zutaten werden zusammengerechnet\n• Sicherungsdatei zum Speichern (z. B. in iCloud Drive) – nichts geht verloren\n\nKOCHMAPPE PRO – einmalig 6,99 €, kein Abo\n• Unbegrenzt Rezepte und Mappen (gratis: 25 Rezepte, 3 Mappen)\n• Rezeptkarten und ganzes Kochbuch als PDF\n• Vier weitere Mappenfarben\nDer Kauf ist einmalig und gilt für immer.\n\nAlles bleibt auf deinem iPhone. Kein Konto, kein Tracking, keine Werbung.\n\nHinweis: Beim Import aus dem Web werden nur die Rezeptdaten der Seite für deinen privaten Gebrauch gelesen. Manche Seiten lassen sich nicht lesen – dann hilft „Text einfügen“. Die App liefert keine eigenen Rezepte außer ein paar Beispielen.\n\nNutzungsbedingungen: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+    },
+    "en-US": {
+      "name": "Kochmappe: Recipe Binder",
+      "subtitle": "Save, scale & cook recipes",
+      "keywords": "recipes,recipe box,cookbook,recipe organizer,shopping list,portion scaler,cooking,baking,timer,save",
+      "promotionalText": "Your recipes in one binder – free, Pro once for 6.99 €. No account, no subscription, no ads.",
+      "description": "Kochmappe is your personal recipe binder: recipes from the web, from pasted text or from your own head – all in one place, on your device, without an account.\n\nFree to use – no paywall, no subscription, no ads. Importing, scaling, cooking, shopping list and backup are free.\n\nCOLLECT RECIPES\n• From a link: Kochmappe reads the recipe page right on your device and keeps a private copy – with photo, ingredients and steps\n• From text: paste a caption, message or note – ingredients and steps are recognised\n• Or write it yourself, with your own photo\n• Folders with colour tabs, tags, favorites, star ratings\n\nFIND\n• Search titles, ingredients, tags and notes\n• “What do I have?”: type what is in the kitchen – your recipes show what is still missing\n\nCOOK\n• Portion calculator with ½, ×2, ×3, fractions and a switch between g/ml and oz/cups\n• Cook mode: one step per page in big type, the screen stays on\n• Timers found in the text (“30 minutes”) – several at once\n• “My twist”: your changes kept apart from the original\n• Cooking diary: when you cooked it, how it went\n\nSHOP & BACK UP\n• Shopping list from any recipes, equal ingredients are added up\n• A backup file you can keep (e.g. in iCloud Drive) – nothing gets lost\n\nKOCHMAPPE PRO – 6.99 € once, no subscription\n• Unlimited recipes and folders (free: 25 recipes, 3 folders)\n• Recipe cards and a whole cookbook as PDF\n• Four more binder colours\nOne purchase, yours for good.\n\nEverything stays on your iPhone. No account, no tracking, no ads.\n\nNote: web import only reads the recipe data of the page for your private use. Some pages cannot be read – then “Paste text” helps. The app ships no recipes of its own apart from a few examples.\n\nTerms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+    }
+  },
+  "screenshots": {
+    "de-DE": "screenshots/out/de_",
+    "en-US": "screenshots/out/en_"
+  },
+  "reviewScreenshot": "screenshots/out/de_7.png",
+  "reviewNotes": "Free to use without an account. To import: tap \"Add recipe\" on the Binder tab. Pro (one-time purchase via StoreKit 2, no subscription) is offered when the free limit of 25 recipes is reached, or on the More tab > \"Kochmappe Pro\". / Gratis nutzbar ohne Konto. Import: Tab „Mappe“ > „Rezept hinzufügen“. Pro (Einmalkauf über StoreKit 2, kein Abo): Tab „Mehr“ > „Kochmappe Pro“.",
+  "lifetime": {
+    "productId": "com.lukasbeutler.kochmappe.pro.lifetime",
+    "referenceName": "Pro für immer",
+    "price": "6.99",
+    "loc": {
+      "de-DE": {
+        "name": "Kochmappe Pro",
+        "description": "Unbegrenzt Rezepte, PDF, Farben."
+      },
+      "en-US": {
+        "name": "Kochmappe Pro",
+        "description": "Unlimited recipes, PDF, colours."
+      }
+    }
+  }
+}

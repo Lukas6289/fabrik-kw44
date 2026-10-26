@@ -59,6 +59,17 @@ jobs:
           if [ -f fabrik/NUR_STORE ] || [ "${{ github.event.inputs.nur_testflight }}" = "true" ]; then echo "bauen=nein" >> "$GITHUB_OUTPUT"; else echo "bauen=ja" >> "$GITHUB_OUTPUT"; fi
       - uses: subosito/flutter-action@v2
         with: { channel: stable, cache: true }
+      - name: Zwecktexte pruefen (Apple verwirft Builds sonst, ITMS-90683)
+        working-directory: fabrik/${{ steps.a.outputs.app }}
+        run: |
+          if grep -q "file_picker" pubspec.yaml; then
+            FEHLT=""
+            for k in NSCameraUsageDescription NSPhotoLibraryUsageDescription NSMicrophoneUsageDescription; do
+              grep -q "<key>$k</key>" ios/Runner/Info.plist || FEHLT="$FEHLT $k"
+            done
+            [ -n "$FEHLT" ] && { echo "Info.plist: Zwecktexte fehlen (file_picker):$FEHLT" | tee "$RUNNER_TEMP/test.log"; exit 1; }
+          fi
+          echo "Zwecktexte ok"
       - working-directory: fabrik/${{ steps.a.outputs.app }}
         run: |
           flutter pub get

@@ -66,6 +66,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Bandsalat does not use the camera; the file picker it uses asks for this. / Bandsalat nutzt die Kamera nicht; die Angabe gehört zur Dateiauswahl.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Saves the cassette cover you share to Photos. / Sichert die geteilte Kassettenhülle in deinen Fotos.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Bandsalat does not use your location; the file picker it uses asks for this. / Bandsalat nutzt deinen Standort nicht; die Angabe gehört zur Dateiauswahl.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Bandsalat does not use your photos; the file picker it uses asks for this. / Bandsalat nutzt deine Fotos nicht; die Angabe gehört zur Dateiauswahl.</string>
 	<key>NSMicrophoneUsageDescription</key>

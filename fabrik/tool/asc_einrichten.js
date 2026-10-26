@@ -383,24 +383,30 @@ async function jahresabo(app, k, dir, cfg) {
   }
 
   // Preis: Deutschland setzen, alle anderen Länder mit Apples Umrechnung.
-  const vorhanden = liste(await asc('GET', `/v1/subscriptions/${abo.id}/prices?limit=1`));
-  if (!vorhanden.length) {
+  // Preise: Deutschland + Umrechnung fuer alle Laender. Fehlen einzelne Laender (abgebrochener
+  // Lauf – Schreibspur hatte nur 37), werden genau diese nachgetragen; vorhandene bleiben.
+  const terr = (x) => ((x.relationships || {}).territory || {}).data && x.relationships.territory.data.id;
+  const vorhanden = await alleSeiten(`/v1/subscriptions/${abo.id}/prices?include=territory&limit=200`);
+  const hat = new Set(vorhanden.map(terr).filter(Boolean));
+  if (!hat.size || hat.size < 150) {
     const punkte = await alleSeiten(`/v1/subscriptions/${abo.id}/pricePoints?filter[territory]=DEU&limit=200`);
     const pp = punkte.find((p) => p.attributes.customerPrice === k.price);
     if (!pp) { schlecht(`Abo: kein Preispunkt ${k.price} €`); }
     else {
-      const gleich = await alleSeiten(`/v1/subscriptionPricePoints/${pp.id}/equalizations?limit=200`);
+      const gleich = await alleSeiten(`/v1/subscriptionPricePoints/${pp.id}/equalizations?include=territory&limit=200`);
       let n = 0;
       for (const punkt of [pp, ...gleich]) {
+        const t = terr(punkt) || (punkt === pp ? 'DEU' : null);
+        if (t && hat.has(t)) continue;
         const r = await asc('POST', '/v1/subscriptionPrices', { data: { type: 'subscriptionPrices',
           attributes: { startDate: null, preserveCurrentPrice: false },
           relationships: {
             subscription: { data: { type: 'subscriptions', id: abo.id } },
             subscriptionPricePoint: { data: { type: 'subscriptionPricePoints', id: punkt.id } } } } });
         if (r.code < 400) n++;
-        else if (punkt === pp) { await pruefe(r, 'Abo-Preis DE'); break; }
+        else if (punkt === pp && !hat.size) { await pruefe(r, 'Abo-Preis DE'); break; }
       }
-      if (n) gut(`Abo-Preis ${k.price} € (+ Umrechnung, ${n} Länder)`);
+      if (n) gut(`Abo-Preis ${k.price} € (+ Umrechnung, ${n} Länder neu, vorher ${hat.size})`);
     }
   }
 

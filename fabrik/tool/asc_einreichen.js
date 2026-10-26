@@ -158,6 +158,17 @@ async function main() {
     for (const s of liste(await asc('GET', `/v1/subscriptionGroups/${g.id}/subscriptions?limit=50`))) {
       const st = s.attributes.state;
       log(`  Abo ${s.attributes.productId}: ${st}`);
+      if (st === 'MISSING_METADATA') {
+        // Was fehlt? (Texte, Preise, Laender, Pruefbild, Gruppen-Texte)
+        const n = async (pfad) => liste(await asc('GET', pfad)).length;
+        const av = (await asc('GET', `/v1/subscriptions/${s.id}/subscriptionAvailability`)).body.data;
+        const bild = (await asc('GET', `/v1/subscriptions/${s.id}/appStoreReviewScreenshot`)).body.data;
+        log(`    Texte ${await n(`/v1/subscriptions/${s.id}/subscriptionLocalizations`)} · ` +
+          `Preise ${await n(`/v1/subscriptions/${s.id}/prices?limit=200`)} · Länder ${av ? 'ja' : 'NEIN'} · ` +
+          `Prüfbild ${bild ? (bild.attributes.assetDeliveryState || {}).state || 'ja' : 'NEIN'} · ` +
+          `Gruppen-Texte ${await n(`/v1/subscriptionGroups/${g.id}/subscriptionGroupLocalizations`)} · ` +
+          `Name „${s.attributes.name}“ · Beschreibung/Prüfnotiz ${s.attributes.reviewNote ? 'ja' : '–'}`);
+      }
       if (st === 'READY_TO_SUBMIT') posten.push({ art: 'abo', id: s.id, gruppe: g.id, name: s.attributes.productId });
       else if (!KAUF_OK.includes(st)) maengel.push(`${s.attributes.productId} ${st}`);
     }

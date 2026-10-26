@@ -1,0 +1,43 @@
+{
+  "primaryCategory": "MUSIC",
+  "secondaryCategory": "LIFESTYLE",
+  "supportUrl": "https://lukas6289.github.io/bandsalat/",
+  "privacyUrl": "https://lukas6289.github.io/bandsalat/datenschutz.html",
+  "locales": {
+    "de-DE": {
+      "name": "Bandsalat: Mixtape-Kassetten",
+      "subtitle": "Kassetten aus deiner Musik",
+      "keywords": "mixtape,kassette,musik,player,retro,playlist,schlaf-timer,songs,band,80er,90er,hülle,cover,tape",
+      "promotionalText": "Bau dein Mixtape: zwei Seiten, 90 Minuten, handgeschriebene Hülle. Gratis starten, Pro einmalig 4,99 € – kein Abo.",
+      "description": "Bandsalat macht aus deiner Musik Mixtapes auf Kassetten – mit zwei Seiten, Bandlänge und handgeschriebener Hülle.\n\nWie früher: Du hast 90 Minuten Band, und ein Balken zeigt dir, wie viel auf Seite A und B noch frei ist. Passt der Song nicht mehr, sagt dir die App das – dann musst du entscheiden.\n\nBAND BAUEN\n• Länge wählen: C30, C46, C60, C90 oder C120\n• Songs auf Seite A und B legen, per Ziehen umsortieren, auf die andere Seite schieben\n• „Seiten automatisch füllen“ verteilt deine Songs nach Bandlänge\n• Name und handschriftliche Widmung („Für Mia, Sommer ’26“) direkt auf dem Etikett\n• 8 Kassettenfarben und 8 Etikett-Muster\n\nABSPIELEN\n• Gezeichnete Kassette mit drehenden Spulen und Bandwickel, Zählwerk und Tasten wie am Rekorder\n• Tippen = nächster Song, Halten = Spulen vor und zurück\n• Band wenden: Seite B startet von selbst – oder nur, wenn du es willst\n• Schlaf-Timer: das Band läuft aus, die letzten 20 Sekunden blenden aus\n• Läuft im Hintergrund, Steuerung auf dem Sperrbildschirm\n\nHÜLLE ZUM VERSCHENKEN\n• Beschriftete Hülle mit beiden Seiten, allen Titeln und Zeiten\n• Als Bild teilen; mit Pro ohne Stempel und als PDF zum Drucken\n\nDEINE DATEIEN\n• Songs kommen aus der Dateien-App, iCloud Drive oder AirDrop (MP3, M4A, WAV, AIFF, FLAC …) und werden in die App kopiert\n• Kein Konto, kein Tracking, keine Werbung – deine Musik bleibt auf deinem iPhone\n• Hinweis: Titel aus Streaming-Diensten wie Apple Music sind kopiergeschützt und lassen sich nicht importieren. Vier kurze Beispiel-Jingles sind dabei.\n\nGRATIS & PRO\nGratis: alles abspielen, unbegrenzt Songs, 3 Bänder, je 3 Farben und Etiketten, Schlaf-Timer, Hülle als Bild mit kleinem Stempel.\nBandsalat Pro – einmalig 4,99 €, kein Abo: unbegrenzt Bänder, alle 8 Farben und 8 Etiketten, Hülle ohne Stempel und als PDF. Der Kauf gilt für immer.\n\nNutzungsbedingungen: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+    },
+    "en-US": {
+      "name": "Bandsalat: Mixtape Maker",
+      "subtitle": "Cassettes from your own music",
+      "keywords": "mixtape,cassette,music,player,retro,playlist,sleep timer,songs,tape,80s,90s,case,cover,deck",
+      "promotionalText": "Build your mixtape: two sides, 90 minutes, a hand-lettered case card. Free to start, Pro 4.99 € once – no subscription.",
+      "description": "Bandsalat turns your own music into mixtapes on cassettes – two sides, a real tape length and a hand-lettered case card.\n\nLike back then: you have 90 minutes of tape, and a bar shows how much is left on side A and side B. If a song no longer fits, the app tells you – and you decide.\n\nBUILD A TAPE\n• Pick a length: C30, C46, C60, C90 or C120\n• Put songs on side A and B, drag to reorder, move them to the other side\n• “Fill the sides automatically” spreads your songs by tape length\n• Name and handwritten dedication (“For Mia, summer ’26”) right on the label\n• 8 cassette colours and 8 label designs\n\nPLAY\n• A drawn cassette with turning reels and tape pack, a counter and tape-deck keys\n• Tap = next song, hold = spool forward or back\n• Flip the tape: side B starts by itself – or only when you want it to\n• Sleep timer: the tape runs out, the last 20 seconds fade away\n• Plays in the background, lock-screen controls\n\nA CASE CARD TO GIVE AWAY\n• A lettered card with both sides, every title and the times\n• Share it as a picture; with Pro without stamp and as a PDF to print\n\nYOUR FILES\n• Songs come from the Files app, iCloud Drive or AirDrop (MP3, M4A, WAV, AIFF, FLAC …) and are copied into the app\n• No account, no tracking, no ads – your music stays on your iPhone\n• Note: tracks from streaming services such as Apple Music are copy-protected and cannot be imported. Four short sample jingles are included.\n\nFREE & PRO\nFree: play everything, unlimited songs, 3 tapes, 3 colours and 3 labels each, sleep timer, the case card as a picture with a small stamp.\nBandsalat Pro – 4.99 € once, no subscription: unlimited tapes, all 8 colours and 8 labels, the case card without stamp and as a PDF. One purchase, yours for good.\n\nTerms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+    }
+  },
+  "screenshots": {
+    "de-DE": "screenshots/out/de_",
+    "en-US": "screenshots/out/en_"
+  },
+  "reviewScreenshot": "screenshots/out/de_7.png",
+  "reviewNotes": "No account needed. The app plays audio files the user imports from the Files app (Crate tab > \"Get songs from Files\"); four short original sample jingles and a sample tape are included, so you can press Play on the Shelf tab right away. Pro (one-time purchase via StoreKit 2, no subscription) is offered when the free limit of 3 tapes is reached, for the extra colours/labels in the tape editor, or on the More tab > \"Bandsalat Pro\". / Kein Konto nötig. Die App spielt Audiodateien, die der Nutzer aus der Dateien-App importiert (Tab „Kiste“); vier kurze eigene Beispiel-Jingles und ein Beispielband sind dabei – im Tab „Regal“ direkt „Abspielen“ drücken. Pro (Einmalkauf über StoreKit 2, kein Abo): beim Erreichen von 3 Bändern, bei zusätzlichen Farben/Etiketten im Band-Editor oder im Tab „Mehr“.",
+  "lifetime": {
+    "productId": "com.lukasbeutler.bandsalat.pro.lifetime",
+    "referenceName": "Pro für immer",
+    "price": "4.99",
+    "loc": {
+      "de-DE": {
+        "name": "Bandsalat Pro",
+        "description": "Unbegrenzt Bänder, alle Farben, Hülle als PDF."
+      },
+      "en-US": {
+        "name": "Bandsalat Pro",
+        "description": "Unlimited tapes, all colours, case card as PDF."
+      }
+    }
+  }
+}

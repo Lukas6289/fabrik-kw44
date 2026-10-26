@@ -1,0 +1,318 @@
+{
+  "@@locale": "de",
+  "appTitle": "Bandsalat",
+  "tabShelf": "Regal",
+  "tabCrate": "Kiste",
+  "tabMore": "Mehr",
+  "shelfTitle": "Deine Bänder",
+  "shelfSub": "{n, plural, =1{1 Band} other{{n} Bänder}} · {time} Musik",
+  "@shelfSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "shelfSubEmpty": "Noch nichts aufgenommen.",
+  "newTape": "Neues Band",
+  "lastPlayed": "Zuletzt gehört",
+  "play": "Abspielen",
+  "pause": "Pause",
+  "stop": "Stopp",
+  "rewind": "Zurückspulen",
+  "forward": "Vorspulen",
+  "flipTape": "Band wenden",
+  "tapeSummary": "{n, plural, =1{1 Titel} other{{n} Titel}} · {time}",
+  "@tapeSummary": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "allTapes": "Alle Bänder",
+  "emptyShelfTitle": "Das Regal ist leer",
+  "emptyShelfBody": "Sammle Songs in der Kiste und nimm dein erstes Mixtape auf: 90 Minuten, zwei Seiten, deine Handschrift.",
+  "sideLabel": "Seite {side}",
+  "@sideLabel": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "back": "Zurück",
+  "close": "Schließen",
+  "cancel": "Abbrechen",
+  "done": "Fertig",
+  "delete": "Löschen",
+  "rename": "Umbenennen",
+  "more": "Weitere Optionen",
+  "editTape": "Band bearbeiten",
+  "endOfSideFlip": "Seite A ist zu Ende – wende das Band für Seite B.",
+  "endOfTape": "Ende des Bands.",
+  "autoFlip": "Automatisch wenden",
+  "autoFlipSub": "Nach Seite A startet Seite B von selbst.",
+  "sleepTimer": "Schlaf-Timer",
+  "sleepBody": "Das Band läuft aus: die letzten 20 Sekunden blenden aus, dann ist Schluss.",
+  "sleepEndOfSide": "Ende der Seite",
+  "sleepOff": "Ausschalten",
+  "sleepLeft": "noch {min} Min",
+  "@sleepLeft": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesShort": "{m} Min",
+  "@minutesShort": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursMinutes": "{h} Std {m} Min",
+  "@hoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "positionOnSide": "Position auf dieser Seite",
+  "sideEmpty": "Seite {side} ist leer. Füge im Band-Editor Songs hinzu.",
+  "@sideEmpty": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "jcardShort": "Hülle",
+  "jcardTitle": "Hüllenkarte",
+  "jcardBody": "Die Hülle deines Bandes, handgeschrieben: beide Seiten, alle Songs, Zeiten. Druck sie aus oder schick sie mit.",
+  "shareImage": "Als Bild teilen",
+  "sharePdf": "Als PDF zum Drucken teilen",
+  "sharePdfPro": "PDF zum Drucken (Pro)",
+  "stampNote": "Gratis: ein kleiner Stempel auf der Karte. Pro: ohne Stempel, dazu das PDF.",
+  "stampText": "gemacht mit Bandsalat",
+  "untitledTape": "Ohne Titel",
+  "tapeNameHint": "Name des Bands",
+  "dedicationHint": "Handschriftliche Widmung, z. B. Für Mia, Sommer ’26",
+  "tapeLength": "Bandlänge",
+  "shellColour": "Kassettenfarbe",
+  "labelStyle": "Etikett-Muster",
+  "tapeLeft": "noch {time} Band frei",
+  "@tapeLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tapeOver": "{time} zu lang",
+  "@tapeOver": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "sideEmptyHint": "Noch leer – füge Songs hinzu.",
+  "otherSide": "Auf Seite {side} verschieben",
+  "@otherSide": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromTape": "Vom Band nehmen",
+  "addSongs": "Songs hinzufügen",
+  "addToSide": "Auf Seite {side} legen",
+  "@addToSide": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "allSongsUsed": "Alle Songs deiner Kiste sind schon auf diesem Band. Hol erst weitere.",
+  "tooLong": "zu lang",
+  "importMore": "Songs holen",
+  "addCount": "{n} hinzufügen",
+  "@addCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "didNotFit": "{n, plural, =1{1 Song passt nicht} other{{n} Songs passen nicht}} auf diese Seite.",
+  "@didNotFit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fillSides": "Seiten automatisch füllen",
+  "deleteTape": "Dieses Band löschen",
+  "deleteTapeTitle": "„{name}“ löschen?",
+  "@deleteTapeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTapeBody": "Das Band wird entfernt. Deine Songs bleiben in der Kiste.",
+  "crateTitle": "Kiste",
+  "crateSub": "{n, plural, =1{1 Song} other{{n} Songs}} · {time}",
+  "@crateSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "crateSubEmpty": "Noch keine Songs.",
+  "importSongs": "Songs aus Dateien holen",
+  "importHint": "MP3, M4A, WAV, AIFF, FLAC … aus der Dateien-App, iCloud Drive oder AirDrop. Sie werden in die App kopiert – deine Originale bleiben unberührt.",
+  "importDone": "{n, plural, =1{1 Song} other{{n} Songs}} hinzugefügt.",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importFailed": "{n, plural, =1{1 Datei} other{{n} Dateien}} konnte nicht gelesen werden (geschützt oder kein Audio).",
+  "@importFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyCrateTitle": "Die Kiste ist leer",
+  "emptyCrateBody": "Hol die Songs, die du als Dateien besitzt. Dann sortierst du sie auf Bänder.",
+  "allSongs": "Alle Songs",
+  "onTapes": "auf {n, plural, =1{1 Band} other{{n} Bändern}}",
+  "@onTapes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ownFilesNote": "Bandsalat spielt deine eigenen Audiodateien. Titel aus Streaming-Diensten wie Apple Music sind kopiergeschützt und lassen sich nicht importieren.",
+  "deleteSongTitle": "„{title}“ löschen?",
+  "@deleteSongTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteSongBody": "Der Song wird aus der App entfernt.",
+  "deleteSongBodyUsed": "Der Song wird aus der App und von {n, plural, =1{1 Band} other{{n} Bändern}} entfernt.",
+  "@deleteSongBodyUsed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proLead": "Einmal zahlen, für immer: unbegrenzt Bänder, alle Farben, die Hülle ohne Stempel.",
+  "proReasonTapes": "Das Gratis-Regal fasst {n} Bänder. Mit Pro beliebig viele.",
+  "@proReasonTapes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proReasonStyles": "Weitere Farben und Etikett-Muster gehören zu Pro.",
+  "proReasonPdf": "Das druckbare PDF gehört zu Pro.",
+  "proFeatTapes": "Unbegrenzt Bänder",
+  "proFeatTapesSub": "Gratis: {n} Bänder. Pro: deine ganze Sammlung.",
+  "@proFeatTapesSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proFeatLooks": "8 Farben, 8 Etikett-Muster",
+  "proFeatLooksSub": "Gratis: je 3. Pro: alle, beliebig gemischt.",
+  "proFeatCard": "Hülle, druckfertig",
+  "proFeatCardSub": "Ohne Stempel, dazu ein PDF zum Ausdrucken und Ausschneiden.",
+  "proFreeStays": "Abspielen, Schlaf-Timer, Kiste und beide Seiten bleiben gratis – für immer. Kein Abo, keine Werbung.",
+  "proOnce": "einmalig – kein Abo",
+  "proBuy": "Pro für {price} holen",
+  "@proBuy": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proThanks": "Danke! Pro ist freigeschaltet.",
+  "proPending": "Warte auf Freigabe …",
+  "proFailed": "Das hat nicht geklappt. Bitte noch einmal versuchen.",
+  "proNothing": "Kein Kauf zum Wiederherstellen gefunden.",
+  "restore": "Kauf wiederherstellen",
+  "terms": "Nutzungsbedingungen",
+  "privacy": "Datenschutz",
+  "support": "Support",
+  "proActive": "Pro ist aktiv",
+  "proCardTitle": "Bandsalat Pro",
+  "proCardSub": "Unbegrenzt Bänder, alle Looks, Hülle als PDF – einmalig {price}, kein Abo.",
+  "@proCardSub": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "playbackTitle": "Wiedergabe",
+  "howTitle": "So geht’s",
+  "how1": "Hol Songs aus der Dateien-App in die Kiste.",
+  "how2": "Bau ein Band: wähle eine Länge (C30 bis C120) und fülle Seite A und B – der Balken zeigt, wie viel Band noch frei ist.",
+  "how3": "Drück Play. Tippe Zurück oder Vor für den nächsten Song, halte die Tasten zum Spulen.",
+  "how4": "Schreib eine Widmung, druck die Hülle aus, verschenk das Band.",
+  "storageTitle": "Speicher",
+  "storageText": "Die Songs in der App belegen {mb} MB auf diesem iPhone. Löschst du einen Song in der Kiste, wird der Platz frei.",
+  "@storageText": {
+    "placeholders": {
+      "mb": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutTitle": "Info",
+  "footer": "Bandsalat · kein Konto, kein Tracking, keine Werbung. Deine Musik bleibt auf deinem iPhone.",
+  "welcomeTitle": "Bau ein Mixtape.\nWende es um.",
+  "welcomeSub": "Such Songs aus deinen eigenen Dateien aus, fülle Seite A und B einer Kassette und spiel sie mit echten Rekorder-Tasten ab.",
+  "welcomeP1": "90 Minuten Band, zwei Seiten – ein Balken zeigt, was noch passt",
+  "welcomeP2": "Handgeschriebene Hülle zum Drucken oder Verschicken",
+  "welcomeP3": "Deine eigenen Dateien, kein Konto, keine Werbung – Apple-Music-Titel lassen sich nicht importieren",
+  "welcomeGo": "Los geht’s",
+  "sampleTape1": "Sommer",
+  "sampleTape2": "Für dich"
+}

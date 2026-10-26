@@ -1,0 +1,318 @@
+{
+  "@@locale": "en",
+  "appTitle": "Bandsalat",
+  "tabShelf": "Shelf",
+  "tabCrate": "Crate",
+  "tabMore": "More",
+  "shelfTitle": "Your tapes",
+  "shelfSub": "{n, plural, =1{1 tape} other{{n} tapes}} · {time} of music",
+  "@shelfSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "shelfSubEmpty": "Nothing recorded yet.",
+  "newTape": "New tape",
+  "lastPlayed": "Last played",
+  "play": "Play",
+  "pause": "Pause",
+  "stop": "Stop",
+  "rewind": "Rewind",
+  "forward": "Fast forward",
+  "flipTape": "Flip the tape",
+  "tapeSummary": "{n, plural, =1{1 song} other{{n} songs}} · {time}",
+  "@tapeSummary": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "allTapes": "All tapes",
+  "emptyShelfTitle": "The shelf is empty",
+  "emptyShelfBody": "Collect songs in the crate, then record your first mixtape: 90 minutes, two sides, your handwriting.",
+  "sideLabel": "Side {side}",
+  "@sideLabel": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "back": "Back",
+  "close": "Close",
+  "cancel": "Cancel",
+  "done": "Done",
+  "delete": "Delete",
+  "rename": "Rename",
+  "more": "More options",
+  "editTape": "Edit tape",
+  "endOfSideFlip": "Side A is over – flip the tape for side B.",
+  "endOfTape": "End of the tape.",
+  "autoFlip": "Flip automatically",
+  "autoFlipSub": "After side A, side B starts by itself.",
+  "sleepTimer": "Sleep timer",
+  "sleepBody": "The tape runs out: the last 20 seconds fade away, then it stops.",
+  "sleepEndOfSide": "End of side",
+  "sleepOff": "Switch off",
+  "sleepLeft": "{min} min left",
+  "@sleepLeft": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesShort": "{m} min",
+  "@minutesShort": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursMinutes": "{h} h {m} min",
+  "@hoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "positionOnSide": "Position on this side",
+  "sideEmpty": "Side {side} is empty. Add songs in the tape editor.",
+  "@sideEmpty": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "jcardShort": "Case card",
+  "jcardTitle": "Case card",
+  "jcardBody": "The inlay of your tape, hand-lettered: both sides, all songs, times. Print it or send it along with the tape.",
+  "shareImage": "Share as picture",
+  "sharePdf": "Share as PDF to print",
+  "sharePdfPro": "PDF to print (Pro)",
+  "stampNote": "Free: a small stamp on the card. Pro: no stamp, plus the PDF.",
+  "stampText": "made with Bandsalat",
+  "untitledTape": "Untitled",
+  "tapeNameHint": "Name of the tape",
+  "dedicationHint": "Handwritten dedication, e.g. For Mia, summer ’26",
+  "tapeLength": "Tape length",
+  "shellColour": "Shell colour",
+  "labelStyle": "Label design",
+  "tapeLeft": "{time} of tape left",
+  "@tapeLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tapeOver": "{time} too long",
+  "@tapeOver": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "sideEmptyHint": "Nothing here yet – add songs.",
+  "otherSide": "Move to side {side}",
+  "@otherSide": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromTape": "Remove from tape",
+  "addSongs": "Add songs",
+  "addToSide": "Add to side {side}",
+  "@addToSide": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "allSongsUsed": "All songs of your crate are already on this tape. Get more first.",
+  "tooLong": "too long",
+  "importMore": "More songs",
+  "addCount": "Add {n}",
+  "@addCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "didNotFit": "{n, plural, =1{1 song doesn’t fit} other{{n} songs don’t fit}} on this side.",
+  "@didNotFit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fillSides": "Fill the sides automatically",
+  "deleteTape": "Delete this tape",
+  "deleteTapeTitle": "Delete “{name}”?",
+  "@deleteTapeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTapeBody": "The tape is removed. Your songs stay in the crate.",
+  "crateTitle": "Crate",
+  "crateSub": "{n, plural, =1{1 song} other{{n} songs}} · {time}",
+  "@crateSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "crateSubEmpty": "No songs yet.",
+  "importSongs": "Get songs from Files",
+  "importHint": "MP3, M4A, WAV, AIFF, FLAC … from the Files app, iCloud Drive or AirDrop. They are copied into the app – your originals stay untouched.",
+  "importDone": "{n, plural, =1{1 song} other{{n} songs}} added.",
+  "@importDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "importFailed": "{n, plural, =1{1 file} other{{n} files}} could not be read (copy-protected or not audio).",
+  "@importFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyCrateTitle": "The crate is empty",
+  "emptyCrateBody": "Bring in the songs you own as files. Then you sort them onto tapes.",
+  "allSongs": "All songs",
+  "onTapes": "on {n, plural, =1{1 tape} other{{n} tapes}}",
+  "@onTapes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ownFilesNote": "Bandsalat plays your own audio files. Songs from streaming services such as Apple Music are copy-protected and cannot be imported.",
+  "deleteSongTitle": "Delete “{title}”?",
+  "@deleteSongTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteSongBody": "The song is removed from the app.",
+  "deleteSongBodyUsed": "The song is removed from the app and from {n, plural, =1{1 tape} other{{n} tapes}}.",
+  "@deleteSongBodyUsed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proLead": "One purchase, yours for good: unlimited tapes, every colour, the case card without stamp.",
+  "proReasonTapes": "The free shelf holds {n} tapes. With Pro it holds as many as you like.",
+  "@proReasonTapes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proReasonStyles": "More colours and label designs are part of Pro.",
+  "proReasonPdf": "The printable PDF is part of Pro.",
+  "proFeatTapes": "Unlimited tapes",
+  "proFeatTapesSub": "Free: {n} tapes. Pro: your whole record collection.",
+  "@proFeatTapesSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "proFeatLooks": "8 colours, 8 label designs",
+  "proFeatLooksSub": "Free: 3 of each. Pro: all of them, mixed as you like.",
+  "proFeatCard": "Case card, print-ready",
+  "proFeatCardSub": "No stamp, plus a PDF you can print and cut out.",
+  "proFreeStays": "Playing, sleep timer, crate and both sides stay free – always. No subscription, no ads.",
+  "proOnce": "once – no subscription",
+  "proBuy": "Get Pro for {price}",
+  "@proBuy": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proThanks": "Thank you! Pro is unlocked.",
+  "proPending": "Waiting for approval …",
+  "proFailed": "That did not work. Please try again.",
+  "proNothing": "No purchase found to restore.",
+  "restore": "Restore purchase",
+  "terms": "Terms of Use",
+  "privacy": "Privacy",
+  "support": "Support",
+  "proActive": "Pro is active",
+  "proCardTitle": "Bandsalat Pro",
+  "proCardSub": "Unlimited tapes, all looks, case card as PDF – {price} once, no subscription.",
+  "@proCardSub": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "playbackTitle": "Playback",
+  "howTitle": "How it works",
+  "how1": "Get songs from the Files app into the crate.",
+  "how2": "Make a tape: pick a length (C30 to C120) and fill sides A and B – the bar shows how much tape is left.",
+  "how3": "Press play. Tap rewind or forward to skip songs, hold them to spool.",
+  "how4": "Write a dedication, print the case card, give the tape away.",
+  "storageTitle": "Storage",
+  "storageText": "The songs in the app take {mb} MB on this iPhone. Deleting a song in the crate frees the space.",
+  "@storageText": {
+    "placeholders": {
+      "mb": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutTitle": "About",
+  "footer": "Bandsalat · no account, no tracking, no ads. Your music stays on your iPhone.",
+  "welcomeTitle": "Build a mixtape.\nFlip it over.",
+  "welcomeSub": "Pick songs from your own files, fill side A and B of a cassette and play it with real tape-deck keys.",
+  "welcomeP1": "90 minutes of tape, two sides – a bar shows what still fits",
+  "welcomeP2": "Hand-lettered case card to print or send",
+  "welcomeP3": "Your own files, no account, no ads – Apple Music tracks cannot be imported",
+  "welcomeGo": "Let’s go",
+  "sampleTape1": "Summer",
+  "sampleTape2": "For you"
+}

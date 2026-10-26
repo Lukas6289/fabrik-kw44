@@ -1,6 +1,6 @@
-# Letzter Lauf: bandsalat – 2026-10-26 05:27 UTC
+# Letzter Lauf: bandsalat – 2026-10-26 09:58 UTC
 
-https://github.com/Lukas6289/fabrik-kw44/actions/runs/40273374622
+https://github.com/Lukas6289/fabrik-kw44/actions/runs/40302349929
 
 | Schritt | Ergebnis |
 |---|---|
@@ -8,7 +8,7 @@ https://github.com/Lukas6289/fabrik-kw44/actions/runs/40273374622
 | Apple (Bundle-ID, App-Eintrag) | ✅ success |
 | Store-Eintrag ausfüllen | ✅ success |
 | Bauen + TestFlight | ✅ success |
-| TestFlight-Tester | ✅ success |
+| TestFlight-Tester | ❌ failure |
 
 ## test
 
@@ -29,7 +29,7 @@ Got dependencies!
 10 packages have newer versions incompatible with dependency constraints.
 Try `flutter pub outdated` for more information.
 Analyzing bandsalat...                                          
-No issues found! (ran in 15.0s)
+No issues found! (ran in 14.5s)
 Try `flutter pub outdated` for more information.
 
 ::group::✅ Passing tests
@@ -48,27 +48,17 @@ Try `flutter pub outdated` for more information.
 ## store
 
 ```
-✔ Rechte-Erklärung
-✔ Preis: kostenlos
-✔ Länder: alle 175
 ✔ Kategorien: MUSIC/LIFESTYLE
 ✔ Altersfreigabe 4+
 ✔ Name, Untertitel, Datenschutz-URL de-DE
 ✔ Name, Untertitel, Datenschutz-URL en-US
-✔ Copyright: 2026 Lukas Beutler
 ✔ Prüfer-Kontakt und Hinweise
 ✔ Beschreibung, Keywords, Werbetext de-DE
-✔ 7 Bildschirmfotos de-DE
+✔ Bildschirmfotos de-DE schon da
 ✔ Beschreibung, Keywords, Werbetext en-US
-✔ 7 Bildschirmfotos en-US
-✔ Einmalkauf angelegt: com.lukasbeutler.bandsalat.pro.lifetime
-✔ Einmalkauf-Text de-DE
-✔ Einmalkauf-Text en-US
-✔ Einmalkauf-Preis 4.99 €
-✔ Einmalkauf-Länder
-✔ Einmalkauf-Prüfbild
+✔ Bildschirmfotos en-US schon da
 
-ERGEBNIS: 19 erledigt, 0 offen
+ERGEBNIS: 9 erledigt, 0 offen
 ```
 
 ## build
@@ -84,23 +74,19 @@ Build 1
 - Apple Distribution: Lukas Beutler (8Y8HB27GH7)
 
 Get Profiles for Bundle ID PYTMT6MXVZ
-[33mDid not find any Profiles for Bundle ID PYTMT6MXVZ matching specified filters: profileState=ACTIVE, profileType=IOS_APP_STORE.[0m
+[32mFound 1 Profile for Bundle ID PYTMT6MXVZ matching specified filters: profileState=ACTIVE, profileType=IOS_APP_STORE.[0m
 
-[33mDid not find any Profiles that contain Signing Certificate Apple Distribution: Lukas Beutler (8Y8HB27GH7)[0m
-[32mFound 1 Device matching specified filters: platform=IOS, status=ENABLED.[0m
-[32mFound 3 Signing Certificates matching specified filters: certificateType=DISTRIBUTION,IOS_DISTRIBUTION.[0m
-Get Bundle ID PYTMT6MXVZ
-[34mCreating new Profile: name: 'Fabrik bandsalat ios_app_store 1792992037', profile type: IOS_APP_STORE, bundle id: PYTMT6MXVZ, certificates: ['8Y8HB27GH7', 'T5G6J9LGD3', 'FNFXKZ7GHM'][0m
-[32mCreated Profile 5GS25N4Q9K[0m
+[32mFiltered out 1 Profile that contain Signing Certificate Apple Distribution: Lukas Beutler (8Y8HB27GH7)[0m
+- IOS_APP_STORE Fabrik bandsalat ios_app_store 1792992037 (5GS25N4Q9K)
 
-[32mSaved Signing Certificate Apple Distribution: Lukas Beutler (8Y8HB27GH7) to /Users/runner/Library/Developer/Xcode/UserData/Certificates/DISTRIBUTION_8Y8HB27GH7_12zambpx.p12[0m
-[32mSaved Profile IOS_APP_STORE Fabrik bandsalat ios_app_store 1792992037 (5GS25N4Q9K) to '/Users/runner/Library/Developer/Xcode/UserData/Provisioning Profiles/IOS_APP_STORE_5GS25N4Q9K_bwt7344k.mobileprovision'[0m
+[32mSaved Signing Certificate Apple Distribution: Lukas Beutler (8Y8HB27GH7) to /Users/runner/Library/Developer/Xcode/UserData/Certificates/DISTRIBUTION_8Y8HB27GH7_z26xgk9n.p12[0m
+[32mSaved Profile IOS_APP_STORE Fabrik bandsalat ios_app_store 1792992037 (5GS25N4Q9K) to '/Users/runner/Library/Developer/Xcode/UserData/Provisioning Profiles/IOS_APP_STORE_5GS25N4Q9K_dqkadni7.mobileprovision'[0m
 [34mConfigure code signing settings[0m
 Searching for files matching /Users/runner/Library/Developer/Xcode/UserData/Provisioning Profiles/*.mobileprovision
 Searching for files matching /Users/runner/Library/Developer/Xcode/UserData/Provisioning Profiles/*.provisionprofile
 Searching for files matching /Users/runner/Library/MobileDevice/Provisioning Profiles/*.mobileprovision
 Searching for files matching /Users/runner/Library/MobileDevice/Provisioning Profiles/*.provisionprofile
-List available code signing certificates in keychain /Users/runner/Library/codemagic-cli-tools/keychains/26-10-26_vtyx5lbj.keychain-db
+List available code signing certificates in keychain /Users/runner/Library/codemagic-cli-tools/keychains/26-10-26_bwaum139.keychain-db
 Searching for files matching /Users/runner/work/fabrik-kw44/fabrik-kw44/fabrik/bandsalat/**/*.xcodeproj
 [32mCompleted configuring code signing settings[0m
  [34m- Using profile "Fabrik bandsalat ios_app_store 1792992037" [91a244e3-55f6-48b8-b402-824fa38fdc18] for target "Runner" [Debug] from project "Runner"[0m
@@ -126,16 +112,16 @@ Running altool at path '/Applications/Xcode_26.6.app/Contents/SharedFrameworks/C
 26.40.1 (174001)
 Running altool at path '/Applications/Xcode_26.6.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources/altool'...
 
-2026-10-26 05:26:10.157  INFO: [ContentDelivery.Uploader.A54C50700] 
+2026-10-26 09:57:23.890  INFO: [ContentDelivery.Uploader.796C48700] 
 ==========================================
 UPLOAD SUCCEEDED with no errors
-Delivery UUID: 899b8ec7-1a38-490b-af31-608422c41edb
-Transferred 26632487 bytes in 0.467 seconds (57.1MB/s, 456.664Mbps)
+Delivery UUID: ab30ecb0-a8ff-4c5f-ac88-bb24a5e3d267
+Transferred 26632626 bytes in 0.648 seconds (41.1MB/s, 328.549Mbps)
 ==========================================
 {
   "details" : {
-    "delivery-uuid" : "899b8ec7-1a38-490b-af31-608422c41edb",
-    "transferred" : "26632487 bytes in 0.467 seconds (57.1MB/s, 456.664Mbps)"
+    "delivery-uuid" : "ab30ecb0-a8ff-4c5f-ac88-bb24a5e3d267",
+    "transferred" : "26632626 bytes in 0.648 seconds (41.1MB/s, 328.549Mbps)"
   },
   "os-version" : "Version 26.6.2 (Build 25G83)",
   "success-message" : "No errors uploading archive at 'build/ios/ipa/Bandsalat.ipa'.",
@@ -153,7 +139,7 @@ Transferred 26632487 bytes in 0.467 seconds (57.1MB/s, 456.664Mbps)
   Fetching from https://github.com/TimOliver/TOCropViewController...     
 Archiving com.lukasbeutler.bandsalat...
 Running Xcode build...                                          
-Xcode archive done.                                         174.1s
+Xcode archive done.                                         187.9s
 ✓ Built build/ios/archive/Runner.xcarchive (196.6MB)
 
 [✓] App Settings Validation
@@ -165,7 +151,7 @@ Xcode archive done.                                         174.1s
 
 To update the settings, please refer to https://flutter.dev/to/ios-deploy
 
-Building App Store IPA...                                           9.9s
+Building App Store IPA...                                           8.8s
 ✓ Built IPA to build/ios/ipa (26.7MB)
 To upload to the App Store either:
     1. Drag and drop the "build/ios/ipa/*.ipa" bundle into the Apple Transporter macOS app https://apps.apple.com/us/app/transporter/id1450874784
@@ -176,6 +162,5 @@ To upload to the App Store either:
 ## testflight
 
 ```
-✔ Gruppe „Team“ angelegt
-✔ …@… → „Team“
+✘ …@…: Tester(s) cannot be assigned
 ```

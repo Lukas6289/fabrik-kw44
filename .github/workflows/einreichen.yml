@@ -42,7 +42,7 @@ jobs:
             DIR="fabrik/${bundle##*.}"
             # App-Ordner fehlt in diesem Wochen-Repo? Aus app-radar (privat) holen.
             if [ ! -d "$DIR" ] && [ -d "$RUNNER_TEMP/t/$DIR" ]; then cp -r "$RUNNER_TEMP/t/$DIR" "$DIR"; fi
-            if [ "$befehl" != entwurf-weg ] && [ -f "$DIR/store/asc.json" ]; then
+            if [ "$befehl" != entwurf-weg ] && [ "$befehl" != zurueckziehen ] && [ -f "$DIR/store/asc.json" ]; then
               node fabrik/tool/asc_einrichten.js "$DIR" > "$RUNNER_TEMP/einrichten.log" 2>&1 \
                 && { echo "Store-Texte $DIR aktualisiert"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; } >> "$BERICHT" \
                 || { echo "⚠ Store-Texte $DIR:"; grep -E "Abo|Einmalkauf|✘|offen" "$RUNNER_TEMP/einrichten.log" | sed 's/^/  · /'; tail -4 "$RUNNER_TEMP/einrichten.log" | sed 's/^/  | /'; } >> "$BERICHT"

@@ -47,11 +47,24 @@ async function neuesterBuild(appId) {
 async function main() {
   const [befehl, bundle] = process.argv.slice(2);
   const los = befehl === 'los';
-  if (!['pruefen', 'los', 'entwurf-weg'].includes(befehl) || !bundle) {
+  if (!['pruefen', 'los', 'entwurf-weg', 'zurueckziehen'].includes(befehl) || !bundle) {
     console.error('Aufruf: asc_einreichen.js pruefen|los|entwurf-weg <bundle-id>'); process.exit(2);
   }
   const app = liste(await asc('GET', `/v1/apps?filter[bundleId]=${bundle}`))[0];
   if (!app) { log(`✘ ${bundle}: kein App-Eintrag`); return false; }
+  if (befehl === 'zurueckziehen') {
+    // Wartende Einreichung aus der Pruefung nehmen (Lukas' Wunsch). Version bleibt bearbeitbar.
+    const subs = liste(await asc('GET', `/v1/reviewSubmissions?filter[app]=${app.id}&filter[state]=WAITING_FOR_REVIEW,IN_REVIEW,UNRESOLVED_ISSUES`));
+    if (!subs.length) { log(`✔ ${bundle}: nichts in der Prüfung`); return true; }
+    let ok = true;
+    for (const sub of subs) {
+      const r = await asc('PATCH', `/v1/reviewSubmissions/${sub.id}`, { data: {
+        type: 'reviewSubmissions', id: sub.id, attributes: { canceled: true } } });
+      if (r.code >= 400) { log(`✘ ${bundle} (${sub.attributes.state}): ${fehlertext(r)}`); ok = false; }
+      else log(`✔ ${bundle}: aus der Prüfung genommen (war ${sub.attributes.state})`);
+    }
+    return ok;
+  }
   if (befehl === 'entwurf-weg') {
     // Nur LEERE, nie abgeschickte Entwuerfe abbrechen (blockieren „App entfernen“).
     const subs = liste(await asc('GET', `/v1/reviewSubmissions?filter[app]=${app.id}&filter[state]=READY_FOR_REVIEW`));

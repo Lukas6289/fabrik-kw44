@@ -1,5 +1,7 @@
 {
  "ziel": "eduki/bibliothek/winter-objekte/bogen-1.png",
  "prompt": "Sticker sheet of 12 separate objects for a children's winter worksheet, cute children's picture-book illustration, soft watercolor texture with fine colored-pencil details, warm gentle colors, each object complete and fully visible, isolated on plain pure white background with lots of white space between them, clean 4 columns x 3 rows grid, no text, no labels, no frames, no paper sheet, no sticker borders, no shadows. Row 1: tall snowy fir tree; small snowy fir tree; bare deciduous tree with snow on its branches; round bush with red berries and a little snow. Row 2: long snowy green hedge; wooden bird feeder house on a pole with a snowy roof; small vegetable bed with green cabbage heads in snow, wooden frame; pile of brown autumn leaves with snow on top. Row 3: small frozen pond, oval, seen slightly from above, light blue ice; grey garbage bin with lid and snow on top; small heap of gnawed hazelnut and walnut shells; a few walnuts and hazelnuts together.",
- "seitenverhaeltnis": "4:3"
+ "seitenverhaeltnis": "4:3",
+ "erledigt": "2026-10-31 07:14 UTC",
+ "modell": "gemini-2.5-flash-image"
 }

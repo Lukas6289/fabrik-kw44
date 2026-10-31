@@ -1,3 +1,1 @@
-kuno.json → eduki/bibliothek/figuren/kauz-kuno.png (1120 KB)
-tiere-wald-1.json → eduki/bibliothek/tiere-wald/bogen-1.png (1450 KB)
-winterwald.json → eduki/bibliothek/szenen/winterwald-abend.png (1773 KB)
+winter-objekte-1.json → eduki/bibliothek/winter-objekte/bogen-1.png (1213 KB)

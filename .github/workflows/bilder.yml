@@ -1,0 +1,26 @@
+name: eduki-Bilder (Gemini)
+on:
+  push:
+    paths: ['eduki/bildauftrag/*.json']
+  workflow_dispatch:
+concurrency: { group: eduki-bilder, cancel-in-progress: false }
+permissions: { contents: write }
+jobs:
+  bilder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bilder erzeugen
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then echo "Secret GEMINI_API_KEY fehlt"; exit 1; fi
+          python3 eduki/werkzeug/gemini_bild.py
+      - name: Ergebnis committen
+        run: |
+          git config user.name "eduki-bilder"; git config user.email "actions@users.noreply.github.com"
+          git add -A eduki
+          git diff --cached --quiet && exit 0
+          git commit -m "eduki: Bilder erzeugt [skip ci]"
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && break; sleep 5; done

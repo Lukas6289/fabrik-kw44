@@ -1,0 +1,8 @@
+{
+ "ziel": "eduki/bibliothek/erste-hilfe/bogen-koffer.png",
+ "prompt": "Sticker sheet of 12 separate first-aid illustrations. Use the attached reference image: draw the SAME first-aid items with the same shapes, the same colors and the same hand-drawn watercolor/colored-pencil style as in the reference, but WITHOUT any writing on the packages. Row 1: (1) red first-aid case with rounded corners, a white cross inside a darker red circle and a dark grey handle on top, exactly like the reference; (2) plaster set: a white plaster strip, a brown fabric plaster strip, a blue-and-white roll of adhesive tape and a small wound plaster; (3) a pair of blue disposable gloves; (4) a blue cold pack bag with a small sun symbol and a small snowflake symbol, no text. Row 2: (5) sterile compresses: a light-blue-and-white sealed package with a red cross plus two white gauze pads, no text; (6) bandage pack: a white wrapped package with a blue stripe and a rolled-up white gauze bandage standing on it, no text; (7) a folded cream-white triangular bandage with dark outline; (8) a folded rescue blanket, gold on one side and silver on the other. Row 3: (9) bandage scissors with mint-green handles and an angled blade; (10) a colorful wrapped candy sweet; (11) a small red toy car; (12) a whole brown onion. Each item isolated on plain pure white background, lots of white space between the items, arranged in a clean grid of 4 columns x 3 rows (12 items), no text, no letters, no numbers, no labels, no paper sheet, no sticker borders, no frames, no shadows, each object complete and fully visible, nothing cut off at the edges.",
+ "seitenverhaeltnis": "4:3",
+ "referenz": [
+  "eduki/2026-10-31-erste-hilfe-kl2/quelle/koffer-vorlage.png"
+ ]
+}

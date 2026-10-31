@@ -1,5 +1,7 @@
 {
  "ziel": "eduki/bibliothek/erste-hilfe/szene-notruf.png",
  "prompt": "Wide children's picture-book illustration, soft watercolor and colored-pencil texture with fine dark outlines, warm gentle colors. A quiet residential street corner with a sidewalk, a low garden fence, two trees and a house in the background. In the middle a boy (about 8, dark curly hair, green T-shirt, shorts) has fallen off his kick scooter: he sits on the sidewalk, his knee is scraped with a little red, his lower leg is bent at an odd angle, the scooter lies next to him. Next to him a girl (about 8, blond braids, yellow jacket) stands calmly and calls on a smartphone held to her ear. On the right side a street sign pole with TWO completely BLANK white street name signs, one above the other, with no letters at all. Not photorealistic, gentle, no dramatic blood. No text, no letters anywhere. Everything fully in frame with a soft white margin around the scene.",
- "seitenverhaeltnis": "16:9"
+ "seitenverhaeltnis": "16:9",
+ "erledigt": "2026-10-31 21:03 UTC",
+ "modell": "gemini-2.5-flash-image"
 }

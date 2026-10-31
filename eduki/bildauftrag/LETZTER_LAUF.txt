@@ -1,1 +1,6 @@
-winter-objekte-1.json → eduki/bibliothek/winter-objekte/bogen-1.png (1213 KB)
+erste-hilfe-1-koffer.json → eduki/bibliothek/erste-hilfe/bogen-koffer.png (925 KB)
+erste-hilfe-2-verletzungen.json → eduki/bibliothek/erste-hilfe/bogen-verletzungen.png (1353 KB)
+erste-hilfe-3-notruf.json → eduki/bibliothek/erste-hilfe/bogen-notruf.png (1116 KB)
+erste-hilfe-4-situationen.json → eduki/bibliothek/erste-hilfe/bogen-situationen.png (1457 KB)
+erste-hilfe-5-szene.json → eduki/bibliothek/erste-hilfe/szene-notruf.png (1584 KB)
+erste-hilfe-6-maskottchen.json → eduki/bibliothek/erste-hilfe/maskottchen-benno.png (1385 KB)

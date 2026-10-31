@@ -15,8 +15,8 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          if [ -z "$GEMINI_API_KEY" ]; then echo "Secret GEMINI_API_KEY fehlt"; exit 1; fi
-          python3 eduki/werkzeug/gemini_bild.py
+          if [ -z "$GEMINI_API_KEY" ]; then echo "Secret GEMINI_API_KEY fehlt" | tee eduki/bildauftrag/LETZTER_LAUF.txt; exit 0; fi
+          python3 eduki/werkzeug/gemini_bild.py 2>&1 | sed "s/$GEMINI_API_KEY/***/g" | tee eduki/bildauftrag/LETZTER_LAUF.txt
       - name: Ergebnis committen
         run: |
           git config user.name "eduki-bilder"; git config user.email "actions@users.noreply.github.com"

@@ -3,7 +3,7 @@
 Auftrag = JSON-Datei in eduki/bildauftrag/, z. B. tiere-winter.json:
   {"ziel": "eduki/bibliothek/tiere-winter-bogen.png",
    "prompt": "Sticker sheet of 12 ... 4 columns x 3 rows ...",
-   "seitenverhaeltnis": "4:3"}
+   "seitenverhaeltnis": "4:3", "referenz": ["eduki/.../vorlage.png"]}   # referenz optional
 Der Workflow erzeugt das Bild, legt es unter `ziel` ab, verschiebt den Auftrag nach
 eduki/bildauftrag/erledigt/ und committet beides. Schlüssel kommt aus dem Secret GEMINI_API_KEY.
 """
@@ -22,8 +22,13 @@ SCHLUESSEL = os.environ['GEMINI_API_KEY']
 WURZEL = pathlib.Path(__file__).resolve().parents[2]
 
 
-def erzeuge(prompt, verhaeltnis):
-    body = {'contents': [{'parts': [{'text': prompt}]}],
+def erzeuge(prompt, verhaeltnis, referenz=()):
+    teile = [{'text': prompt}]
+    for r in referenz:  # Referenzbilder (Stil/Motiv-Vorlage), Pfade relativ zum Repo
+        pfad = WURZEL / r
+        mime = 'image/png' if pfad.suffix.lower() == '.png' else 'image/jpeg'
+        teile.append({'inlineData': {'mimeType': mime, 'data': base64.b64encode(pfad.read_bytes()).decode()}})
+    body = {'contents': [{'parts': teile}],
             'generationConfig': {'responseModalities': ['IMAGE'], 'imageConfig': {'aspectRatio': verhaeltnis}}}
     for versuch in range(4):
         req = urllib.request.Request(URL, data=json.dumps(body).encode(), method='POST',
@@ -56,7 +61,9 @@ def main():
         auftrag = json.loads(a.read_text())
         ziel = WURZEL / auftrag['ziel']
         ziel.parent.mkdir(parents=True, exist_ok=True)
-        daten = erzeuge(auftrag['prompt'], auftrag.get('seitenverhaeltnis', '1:1'))
+        ref = auftrag.get('referenz', [])
+        ref = [ref] if isinstance(ref, str) else ref
+        daten = erzeuge(auftrag['prompt'], auftrag.get('seitenverhaeltnis', '1:1'), ref)
         ziel.write_bytes(daten)
         auftrag['erledigt'] = time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())
         auftrag['modell'] = MODELL

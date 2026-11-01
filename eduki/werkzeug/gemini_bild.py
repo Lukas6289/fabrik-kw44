@@ -19,6 +19,7 @@ import urllib.request
 MODELL = os.environ.get('GEMINI_BILD_MODELL', 'gemini-2.5-flash-image')
 URL = f'https://generativelanguage.googleapis.com/v1beta/models/{MODELL}:generateContent'
 SCHLUESSEL = os.environ['GEMINI_API_KEY']
+PREIS_USD = 0.039  # Listenpreis pro Bild gemini-2.5-flash-image (1024 px), Stand 2026 – bei Modellwechsel anpassen
 WURZEL = pathlib.Path(__file__).resolve().parents[2]
 
 
@@ -44,9 +45,23 @@ def erzeuge(prompt, verhaeltnis, referenz=()):
             raise SystemExit(1)
         for teil in antwort.get('candidates', [{}])[0].get('content', {}).get('parts', []):
             if 'inlineData' in teil:
-                return base64.b64decode(teil['inlineData']['data'])
+                return base64.b64decode(teil['inlineData']['data']), antwort.get('usageMetadata', {})
         print('Kein Bild in der Antwort:', json.dumps(antwort)[:500])
         raise SystemExit(1)
+
+
+def kosten_eintragen(name, ziel, nutzung):
+    """Jedes erzeugte Bild in eduki/KOSTEN.md protokollieren (Lukas will den Verbrauch immer sehen)."""
+    datei = WURZEL / 'eduki' / 'KOSTEN.md'
+    if not datei.exists():
+        datei.write_text('# Gemini-Bildkosten (automatisch vom Bilder-Workflow)\n\n'
+                         f'Schätzung mit Listenpreis {PREIS_USD} $ pro Bild. Das echte Restguthaben steht nur in Google AI Studio\n'
+                         '(aistudio.google.com → Abrechnung / Billing) bzw. console.cloud.google.com/billing.\n\n'
+                         '| Datum (UTC) | Auftrag | Ziel | Modell | Tokens ein/aus | ca. Kosten |\n|---|---|---|---|---|---|\n')
+    ein = nutzung.get('promptTokenCount', '?')
+    aus = nutzung.get('candidatesTokenCount', '?')
+    with datei.open('a') as f:
+        f.write(f"| {time.strftime('%Y-%m-%d %H:%M', time.gmtime())} | {name} | {ziel} | {MODELL} | {ein}/{aus} | {PREIS_USD:.3f} $ |\n")
 
 
 def main():
@@ -63,7 +78,8 @@ def main():
         ziel.parent.mkdir(parents=True, exist_ok=True)
         ref = auftrag.get('referenz', [])
         ref = [ref] if isinstance(ref, str) else ref
-        daten = erzeuge(auftrag['prompt'], auftrag.get('seitenverhaeltnis', '1:1'), ref)
+        daten, nutzung = erzeuge(auftrag['prompt'], auftrag.get('seitenverhaeltnis', '1:1'), ref)
+        kosten_eintragen(a.stem, auftrag['ziel'], nutzung)
         ziel.write_bytes(daten)
         auftrag['erledigt'] = time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())
         auftrag['modell'] = MODELL
